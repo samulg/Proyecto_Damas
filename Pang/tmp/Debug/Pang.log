@@ -1,4 +1,2 @@
-﻿  Tablero.cpp
-c:\users\samue\desktop\actual - copia\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\tablero.cpp(96): warning C4101: 'y': variable local sin referencia
-c:\users\samue\desktop\actual - copia\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\tablero.cpp(96): warning C4101: 'x': variable local sin referencia
-  Pang.vcxproj -> C:\Users\samue\Desktop\ACTUAL - copia\25-03-2020_ReglasFuncionando\comer fichas doble Funciona mal LO DE MIKEL\comer fichas doble Funciona mal\Pang\bin\Pang.exe
+﻿  FichaBlanca.cpp
+  Pang.vcxproj -> C:\Users\samue\Desktop\cementerioOK\Pang\bin\Pang.exe

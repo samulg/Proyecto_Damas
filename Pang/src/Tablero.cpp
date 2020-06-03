@@ -62,8 +62,10 @@ void Tablero::dibujarFichasIniciales() {
 	for (i = 0; i < 4; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
 		for (j = 0; j < 10; j++) {
 			if ((i + j) % 2 == 0) {
-				listaFichasB[nb]->dibujarFicha();
-				nb++;
+				
+					listaFichasB[nb]->dibujarFicha();
+					nb++;
+				
 			}
 		}
 	}
@@ -72,17 +74,18 @@ void Tablero::dibujarFichasIniciales() {
 	for (i = 6; i < 10; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
 		for (j = 0; j < 10; j++) {
 			if ((i + j) % 2 == 0) {
-				listaFichasN[nn]->dibujarFicha();
-				nn++;
+				
+					listaFichasN[nn]->dibujarFicha();
+					nn++;
+				
 			}
 		}
 	}
 	regla.delListaFichas(listaFichasB, listaFichasN);
-	int m=0;
-	int n = 1;
-	n = m;
+
 }
 void Tablero::moverMano(unsigned char tecla) {
+	//Tablero t1;
 	bool fichaComida = false;
 	Vector2D posSiguiente;//vector auxiliar para regla.setPosSig() la posicion siguiente (a donde voy)
 	Vector2D posActual;//vector auxiliar para pasar a regla.setPosAct() la posicion anterior (de donde vengo)
@@ -164,12 +167,18 @@ void Tablero::moverMano(unsigned char tecla) {
 				if (regla.posibleComerFicha()) {//posibleComerFicha da positivo cuando hay una ficha negra adyacente (no comprueba que una casilla más allá este libre)
  					int h = 1;
 					if (regla.fichaComida()) {
+						
 						//era posible comer y ha comido
 						listaFichasB[aux]->posicion.x = (-hand.cm);//estas dos instrucciones
 						listaFichasB[aux]->posicion.y = (-hand.fm);//son las que redibujan la ficha (actualizando su posicion
 						hand.seleccionada = false;
 						regla.delListaFichas(listaFichasB, listaFichasN);//Nos devuelve los estados de las fichas
-																		//los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
+						regla.hacerReina();	
+						dibujarCementerio(); //Actualizamos la posicion de las fichas para que no obligue a comer a otra ficha cuando ya se ha comido y se ha mandado al cementerio
+										//los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
+						//t1.contarMuertas();//cuando ya hemos actualizado el estado de la última comida, contamos muertas
+
+						///////////////////////////////////////////////////////////////////
 						regla.setListaFichas(listaFichasB, listaFichasN);
 						
 						int m = 0;
@@ -193,6 +202,7 @@ void Tablero::moverMano(unsigned char tecla) {
 						listaFichasB[aux]->posicion.y = (-hand.fm);
 						hand.seleccionada = false;
 						controlSeleccion = regla.cambiarTurno();
+						regla.hacerReina();
 					}
 					else
 						controlSeleccion = 1;
@@ -217,12 +227,34 @@ void Tablero::moverMano(unsigned char tecla) {
 	}
 }
 void Tablero::contarMuertas(){
-
+	//FichaNegra::contador = 0;
+	regla.delListaFichas(listaFichasB, listaFichasN);
+	int cont = 0;//contador auxiliar
 	for (int i = 0; i < 20; i++) {
-		//if (listaFichasN[i]->estado == -1)
-		//	FichaNegra::contador++;
+
+		if (listaFichasN[i]->estado == -1) {
+			FichaNegra::contador++;
+			cont++;
+
+		}
+		int h = 1;
 	}
 }
+void Tablero::dibujarCementerio() {
+	regla.delListaFichas(listaFichasB, listaFichasN);//cada funcion de tablero debe actualizar las fichas con Reglas
+												//de manera independiente
+	int cont = 0;
+	for (int i = 0; i < 20; i++) {
+
+		if (listaFichasN[i]->estado == -1) {		
+			cont++;
+			listaFichasN[i]->posicion.x = 2;
+			listaFichasN[i]->posicion.y = -(cont+0.2);
+		}
+		
+	}
+}
+
 Tablero::~Tablero()
 {
 

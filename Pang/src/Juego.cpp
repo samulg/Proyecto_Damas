@@ -52,6 +52,8 @@ void OnDraw(void)
 
 	tabler.dibujarTablero();
 	tabler.dibujarFichasIniciales();
+	tabler.dibujarCementerio();
+
 	
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();

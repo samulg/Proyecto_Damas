@@ -58,6 +58,8 @@ bool Reglas::movDiagUnit() {
 }
 bool Reglas::fichaComida() {
 	int i;
+	int v;
+	int k;
 	bool diagIzq = false;
 	bool diagDer = false;
 	//primero comprobamos que adonde quiere mover es la casilla diagonal doble
@@ -68,10 +70,11 @@ bool Reglas::fichaComida() {
 			//Comprobamos que no haya ninguna ficha ahi
 			if ((posicionSiguiente = listaFichasB[i]->posicion) || (posicionSiguiente = listaFichasN[i]->posicion)) {
 				diagIzq = false;
+				listaFichasN[v]->estado = 0;
 				break;
 			}
 			else {
-				for (int v = 0; v < 20; v++)
+				for (v = 0; v < 20; v++)
 				{
 					//Aqui comprobamos que hay una ficha del otro color en medio de la diagonal 
 					if (((posicionActual.x + 1) == listaFichasN[v]->posicion.x) && ((posicionActual.y - 1) == listaFichasN[v]->posicion.y)) {
@@ -98,17 +101,19 @@ bool Reglas::fichaComida() {
 			//Comprobamos que no haya ninguna ficha ahi
 			if ((posicionSiguiente = listaFichasB[i]->posicion) || (posicionSiguiente = listaFichasN[i]->posicion)) {
 				diagDer = false;
+				listaFichasN[k]->estado = 0;
 				break;
 			}
 			else
 			{
-				for (int k = 0; k < 20; k++)
+				for (k = 0; k < 20; k++)
 				{
 
 					//Aqui comprobamos que hay una ficha del otro color en medio de la diagonal 
 					if (((posicionActual.x - 1) == listaFichasN[k]->posicion.x) && ((posicionActual.y - 1) == listaFichasN[k]->posicion.y)) {
 						diagDer = true;
-						listaFichasN[k]->estado = -1;
+						listaFichasN[k]->estado = -1; //si hemos comido cambiamos el estado de la ficha comida(se le pasa
+													//a tablero en delListaFichas
 						break;
 					}
 					else
@@ -144,8 +149,8 @@ bool Reglas::movComerAdicional() {
 			for (int v = 0; v < 20; v++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 											  //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if
 				if ((((posicionSiguiente.x + 2) == listaFichasB[v]->posicion.x) && ((posicionSiguiente.y - 2) == listaFichasB[v]->posicion.y)) || (((posicionSiguiente.x + 2) == listaFichasN[v]->posicion.x) && ((posicionSiguiente.y - 2) == listaFichasN[v]->posicion.y)))
-					diagIzq = false; //funciona correctamente, similar a la anterior
-			//Problema: diagIzq devuelve true aunque 
+					diagIzq = false; 
+			
 			}
 		}
 
@@ -235,6 +240,14 @@ bool Reglas::posibleComerFicha() {
 	return auxdig;
  	
 }
+void Reglas::hacerReina() {
+	
+	for (int i = 0; i < 20; i++) {
+		if (((posicionSiguiente.y +1 == listaFichasB[i]->posicion.y)||(posicionSiguiente.y + 2 == listaFichasB[i]->posicion.y)) && (posicionSiguiente.y == -9))
+			listaFichasB[i]->estado = 1;
+	
+	}
+}
 bool Reglas::getTurno() {
 	return turno;
 
@@ -247,6 +260,7 @@ void Reglas::setPosSig(Vector2D v) {
 	posicionSiguiente.x = v.x;
 	posicionSiguiente.y = v.y;
 }
+
 void Reglas::setListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> listaN) {	
 	int i = 0;
 	for (i = 0; i < 20; i++) {
@@ -257,13 +271,17 @@ void Reglas::setListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> li
 		listaFichasN[i]->posicion.y = listaN[i]->posicion.y;	
 	}
 }
+
 void Reglas::delListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> listaN) {
 	int i = 0;
 	for (i = 0; i < 20; i++) {
-		
+		//listaN[i]->posicion.x = listaFichasN[i]->posicion.x;
+		//listaN[i]->posicion.y = listaFichasN[i]->posicion.y;
+		listaB[i]->estado = listaFichasB[i]->estado;
 		listaN[i]->estado = listaFichasN[i]->estado;
 	}
 }
+
 Reglas::~Reglas()
 {
 

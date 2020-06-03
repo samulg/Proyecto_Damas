@@ -6,7 +6,7 @@ class FichaNegra : public Ficha
 {
 public:
 	FichaNegra(int f, int c);
-
+	static int contador ;
 	void dibujarFicha(void);
 
 
