@@ -21,7 +21,7 @@ public:
 	std::vector <Jugada> posibPosSiguientes;
 	std::vector <Jugada> posMismaPrioridad;
 	////////////////////metodos
-	void calcularPosicionesPosibles();
+	bool calcularPosicionesPosibles();
 	Jugada* elegirMejorMov(void);
 	~ReglasBot();
 };

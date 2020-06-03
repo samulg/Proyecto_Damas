@@ -65,7 +65,6 @@ void Tablero::dibujarFichasIniciales() {
 	for (i = 0; i < 3; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
 		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
-
 				listaFichasB[nb]->dibujarFicha();
 				nb++;
 
@@ -77,13 +76,12 @@ void Tablero::dibujarFichasIniciales() {
 	for (i = 5; i < 8; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
 		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
-
 				listaFichasN[nn]->dibujarFicha();
 				nn++;
-
 			}
 		}
 	}
+
 	regla.delListaFichas(listaFichasB, listaFichasN);
 	if (graf.Turn == true)
 		hand.dibujarManoBlanca();
@@ -159,12 +157,11 @@ void Tablero::moverMano(unsigned char tecla) {
 		graf.Escena = 5;
 	}
 
-	//Accedemos al 1vsBot. 
+	//Accedemos al 1vsBot. Deshabilitado por ahora
 	if ((tecla == '2') && (graf.Escena == 0))
 	{
 		bot.mode = 1;
-		graf.Escena = 5;
-	
+		graf.Escena = 5;	
 	}
 
 	//Accedemos a las instrucciones.
@@ -178,7 +175,6 @@ void Tablero::moverMano(unsigned char tecla) {
 			graf.Escena = 3;
 		else if (graf.Escena == 3)
 			graf.Escena = 4;
-
 	}
 
 	//Gestión de pausa.
@@ -227,7 +223,6 @@ void Tablero::moverMano(unsigned char tecla) {
 
 	if (tecla == ' ' && hand.seleccionada == true) {
 		regla.setListaFichas(listaFichasB, listaFichasN);//le pasamos a "Reglas.h" las posiciones de las fichas blancas y negras y
-
 
 		//actualizamos dichas posiciones cada vez que se pulsa el espacio
 
@@ -294,10 +289,7 @@ void Tablero::moverMano(unsigned char tecla) {
 				}
 				else
 					controlSeleccion = 1;
-
-
 			}
-
 		}
 		////////////////////////////////////////////////////
 		//negras
@@ -359,16 +351,9 @@ void Tablero::moverMano(unsigned char tecla) {
 				}
 				else
 					controlSeleccion = 1;
-
-
 			}
 		}
-		
-
-
 	}
-	
-
 }
 
 
@@ -396,7 +381,6 @@ void Tablero::dibujarCementerio() {
 			contN = -1;
 			contSaltoN = 0;
 		}
-
 	}
 	for (int i = 0; i < 12; i++) {
 
@@ -412,7 +396,6 @@ void Tablero::dibujarCementerio() {
 			contB = -8;
 			contSaltoB = 0;
 		}
-
 	}
 }
 
@@ -451,19 +434,51 @@ void Tablero::Animacion() {
 	printf("%f", graf.ojo_y);*/
 }
 void Tablero::jugarBot() {
+	///////los cambios de posicion asignados en este metodo se ejecutan, pero los asignados a estado no
+
+	
 	bool turno = regla.getTurno();
 	Jugada *jugada;
 	if ((bot.mode == 1) && (turno == 0)) {
+
+		bot.setListaFichas(listaFichasB, listaFichasN);//los vectores de ReglasBot adquieren las posiciones de los de tablero
+		regla.setListaFichas(listaFichasB, listaFichasN);//los vectores de Reglas adquieren las posiciones de los de tablero
+
 		int j = 0;
 		
 		bot.calcularPosicionesPosibles();
-		////////////////////////////////////////error
-		///jugada no recoge los valores (posSigu vale 0). bot si esta enviando valores. Probar con punteros
+
 		jugada = bot.elegirMejorMov();
 		listaFichasN[jugada->idFicha]->posicion.x = (jugada->posSig.x);
 		listaFichasN[jugada->idFicha]->posicion.y = (jugada->posSig.y);
-		bot.setListaFichas(listaFichasB, listaFichasN);
+
+		if (jugada->idFichaComer != 20) {
+			listaFichasB[jugada->idFichaComer]->estado = -1;
+		}
+		if (bot.calcularPosicionesPosibles())//Con este if volvemos a comprobar si puede comer de nuevo
+		{
+			bot.setListaFichas(listaFichasB, listaFichasN);//los vectores de ReglasBot adquieren las posiciones de los de tablero
+			regla.setListaFichas(listaFichasB, listaFichasN);//los vectores de Reglas adquieren las posiciones de los de tablero
+
+			int j = 0;
+
+			bot.calcularPosicionesPosibles();
+			
+			jugada = bot.elegirMejorMov();
+			listaFichasN[jugada->idFicha]->posicion.x = (jugada->posSig.x);
+			listaFichasN[jugada->idFicha]->posicion.y = (jugada->posSig.y);
+
+			if (jugada->idFichaComer != 20) {
+				listaFichasB[jugada->idFichaComer]->estado = -1;
+			}
+			bot.setListaFichas(listaFichasB, listaFichasN);//bot iguala sus vectores a los de tablero
+			regla.setListaFichas(listaFichasB, listaFichasN);
+			int k = 0;
+		}
+		bot.setListaFichas(listaFichasB, listaFichasN);//bot iguala sus vectores a los de tablero
+		regla.setListaFichas(listaFichasB, listaFichasN);
 		int k = 0;
+		
 		regla.cambiarTurno();
 	}
 }

@@ -395,7 +395,7 @@ bool Reglas::movDiagUnitN() {
 	bool aux = false;
 	//primero comprobamos que adonde quiere mover es la casilla diagonal
 
-	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))))   &&   (((posicionSiguiente.x > -7) && (posicionSiguiente.y <= 0)) && ((posicionSiguiente.x <= 0) && (posicionSiguiente.y > -7)))) {//posicionSiguiente debe estar dentro del tablero
+	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))))   &&   (((posicionSiguiente.x > -7) && (posicionSiguiente.y < 0)) && ((posicionSiguiente.x < 0) && (posicionSiguiente.y > -7)))) {//posicionSiguiente debe estar dentro del tablero
 		//ahora comprobamos que no haya ninguna ficha ahi 
 
 		for (i = 0; i < 12; i++) {
@@ -418,27 +418,33 @@ bool Reglas::posibleComerFichaN() {
 	//comprobamos para cada NEGRA todas las BLANCAS
 	for (int i = 0; i < 12; i++) {
 		diagIzq[i] = false;
+		fichaAComerIzq[i] = 20;
 		
 		//separamos entre diagonal derecha e izquierda
 		for (int j = 0; j < 12; j++) {
 			//izquierda
 			//primero comprobamos que haya una ficha en la casilla adyacente
-			if (((listaFichasNe[i]->posicion.x - 1) == listaFichasBl[j]->posicion.x) && ((listaFichasNe[i]->posicion.y + 1) == listaFichasBl[j]->posicion.y))  {
+			if (((listaFichasNe[i]->posicion.x - 1) == listaFichasBl[j]->posicion.x) && ((listaFichasNe[i]->posicion.y + 1) == listaFichasBl[j]->posicion.y)) {
 				diagIzq[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
-				int aux = 0;
-				aux = i;
-				int j;
-				j = i;
+
+				fichaAComerIzq[i] = j; //guarda el indice de la ficha blanca que va a ser comida (para el bot)
+				int h=0;
+				h = j;
+				
 				if (((listaFichasNe[i]->posicion.x - 2) < -7) || ((listaFichasNe[i]->posicion.y + 2) >0)) {
 					diagIzq[i] = false;
-					j = i;
+					fichaAComerIzq[i] = 20; // El problema que hay es que primero detecta posibles fichas que estan adyacentes, y despues descarta que puedan ser
+					                        //comidas por comer fuera del tablero. Asique tenemos que volver a cambiar a 20 para que no sea detectada como fichaComida (para el bot)
 				}
 
 				for (int v = 0; v < 12; v++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 											  //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if
 					//si hay una ficha en la segunda casilla diagonal
 					if ((((listaFichasNe[i]->posicion.x - 2) == listaFichasBl[v]->posicion.x) && ((listaFichasNe[i]->posicion.y + 2) == listaFichasBl[v]->posicion.y))|| (((listaFichasNe[i]->posicion.x - 2) == listaFichasNe[v]->posicion.x) && ((listaFichasNe[i]->posicion.y + 2) == listaFichasNe[v]->posicion.y))) {
-						diagIzq[i] = false; //funciona correctamente, similar a la anterior				
+						diagIzq[i] = false; //funciona correctamente, similar a la anterior	
+
+						fichaAComerIzq[i] = 20; // El problema que hay es que primero detecta posibles fichas que estan adyacentes, y despues descarta que puedan ser
+											//comidas por haber otra ficha en la posicion Siguiente. Asique tenemos que volver a cambiar a 20 para que no sea detectada como fichaComida (para el bot)
 					}
 				}
 			}
@@ -448,18 +454,20 @@ bool Reglas::posibleComerFichaN() {
 	for (int i = 0; i < 12; i++) {
 		//Estos if comprueba si hay fichas a dos casillas de la posicion donde has quedado tras comer una ficha
 		//separamos entre diagonal derecha e izquierda
+		fichaAComerDer[i] = 20;
 		diagDer[i] = false;
 		for (int j = 0; j < 12; j++) {
 			//derecha
 			if (((listaFichasNe[i]->posicion.x + 1) == listaFichasBl[j]->posicion.x) && ((listaFichasNe[i]->posicion.y + 1) == listaFichasBl[j]->posicion.y)) {
-				diagDer[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
-				int aux1 = 0;
-				aux1 = i;
-				int j1;
-				j1 = i;
+				diagDer[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente
+
+				fichaAComerDer[i] = j; //guarda el indice de la ficha blanca que va a ser comida
+
 				if (((listaFichasNe[i]->posicion.x + 2) >0) || ((listaFichasNe[i]->posicion.y + 2) >0)) {
 					diagDer[i] = false;
-					aux1 = i;
+
+					fichaAComerDer[i] = 20; // El problema que hay es que primero detecta posibles fichas que estan adyacentes, y despues descarta que puedan ser
+					                        //comidas por comer fuera del tablero. Asique tenemos que volver a cambiar a 20 para que no sea detectada como fichaComida (para el bot)
 				}
 
 				for (int z = 0; z < 12; z++) {//necesitamos recorrer las posiciones de la BLANCAS desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
@@ -467,6 +475,8 @@ bool Reglas::posibleComerFichaN() {
 					//si hay una ficha en la segunda casilla diagonal
 					if ((((listaFichasNe[i]->posicion.x + 2) == listaFichasBl[z]->posicion.x) && ((listaFichasNe[i]->posicion.y + 2) == listaFichasBl[z]->posicion.y)) || (((listaFichasNe[i]->posicion.x + 2) == listaFichasNe[z]->posicion.x) && ((listaFichasNe[i]->posicion.y + 2) == listaFichasNe[z]->posicion.y))) {
 						diagDer[i] = false; 
+						fichaAComerDer[i] = 20; // El problema que hay es que primero detecta posibles fichas que estan adyacentes, y despues descarta que puedan ser
+											//comidas por haber otra ficha en la posicion Siguiente. Asique tenemos que volver a cambiar a 20 para que no sea detectada como fichaComida (para el bot)
 					}
 				}
 			}
@@ -756,6 +766,10 @@ void Reglas::setListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> li
 
 		listaFichasBl[i]->posicion.y = listaB[i]->posicion.y;
 		listaFichasNe[i]->posicion.y = listaN[i]->posicion.y;	
+		//////////////////////////////////instruccion para reglasbot
+		listaFichasBl[i]->estado = listaB[i]->estado;
+		listaFichasNe[i]->estado = listaN[i]->estado;
+
 	}
 	int j = 0;
 }

@@ -13,16 +13,16 @@ class Reglas
 protected:
 	std::vector <Ficha*> listaFichasBl;
 	std::vector <Ficha*> listaFichasNe;
-	bool diagDer[20];
+	bool diagDer[20];// si diagDer[3]==true, significa que la ficha 3 puede comer a la derecha
 	bool diagIzq[20];
+	int fichaAComerDer[12] ;//  indica que ficha puede ser comida por la ficha  indicada en diag
+	int fichaAComerIzq[12];
 
 private:
 	bool turno;
 	Vector2D posicionActual;
 	Vector2D posicionSiguiente;
 
-
-	//bool fichaComida;
 public:
 	Reglas();
 
@@ -51,8 +51,8 @@ public:
 	bool getTurno();
 	void setPosAct(Vector2D);
 	void setPosSig(Vector2D);
-	void setListaFichas(std::vector <Ficha*>, std::vector <Ficha*>);
-	void delListaFichas(std::vector <Ficha*>, std::vector <Ficha*>);
+	void setListaFichas(std::vector <Ficha*>, std::vector <Ficha*>);//cuando se llama desde tablero, los vectores de Reglas adquieren las posiciones de los de tablero
+	void delListaFichas(std::vector <Ficha*>, std::vector <Ficha*>);//cuando se llama desde tablero, los vectores de tablero adquieren el estado de los de regla
 
 	~Reglas();
 };

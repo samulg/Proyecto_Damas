@@ -4,7 +4,6 @@
 class Jugada {
 public:
 	int idFicha;
-	int idFichaComer = 20; //Valor aleatorio para cambiar su valor cuando pueda comer una ficha
-	Vector2D posSigComer;
+	int idFichaComer=20;
 	Vector2D posSig;
 };
