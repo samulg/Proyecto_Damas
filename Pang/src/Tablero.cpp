@@ -256,16 +256,16 @@ void Tablero::moverMano(unsigned char tecla) {
 						regla.delListaFichas(listaFichasB, listaFichasN);//Nos devuelve los estados de las fichas
 						regla.hacerReina();
 						dibujarCementerio(); //Actualizamos la posicion de las fichas para que no obligue a comer a otra ficha cuando ya se ha comido y se ha mandado al cementerio
-										//los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
+										     //los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
 						graf.ContBlancas++;//cuando ya hemos actualizado el estado de la última comida, contamos muertas
 						printf("%d", graf.ContBlancas);
 						///////////////////////////////////////////////////////////////////
 						regla.setListaFichas(listaFichasB, listaFichasN);
-
+					
 						int m = 0;
 						int n = 1;
 						n = m;
-						if (regla.posibleComerFicha() == false && (regla.posibleComerConReina() == false)) {
+						if (regla.posibleComerFicha() == false && (regla.posibleComerConReina() == false) || ((regla.diagDer[aux]==false) && (regla.diagIzq[aux] == false))) {
 							controlSeleccion = regla.cambiarTurno();
 							hand.seleccionada = false;
 						}
@@ -328,7 +328,7 @@ void Tablero::moverMano(unsigned char tecla) {
 						int m = 0;
 						int n = 1;
 						n = m;
-						if ((regla.posibleComerFichaN() == false) && (regla.posibleComerConReinaN() == false)) {
+						if ((regla.posibleComerFichaN() == false) && (regla.posibleComerConReinaN() == false) || ((regla.diagDer[aux] == false) && (regla.diagIzq[aux] == false))) {
 							controlSeleccion = regla.cambiarTurno();
 							hand.seleccionada = false;
 						}
@@ -356,11 +356,72 @@ void Tablero::moverMano(unsigned char tecla) {
 	}
 }
 
+void Tablero::jugarBot() {
+	///////los cambios de posicion asignados en este metodo se ejecutan, pero los asignados a estado no
 
+	bool turno = regla.getTurno();
+	Jugada *jugada;
+	if ((bot.mode == 1) && (turno == 0)) {
+		
+		bot.setListaFichas(listaFichasB, listaFichasN);//los vectores de ReglasBot adquieren las posiciones de los de tablero
+		regla.setListaFichas(listaFichasB, listaFichasN);//los vectores de Reglas adquieren las posiciones de los de tablero
+
+		int j = 0;
+
+		bot.calcularPosicionesPosibles();
+
+		jugada = bot.elegirMejorMov();
+
+		listaFichasN[jugada->idFicha]->posicion.x = (jugada->posSig.x);
+		listaFichasN[jugada->idFicha]->posicion.y = (jugada->posSig.y);
+
+		regla.hacerReinaBot();
+		bot.delListaFichas(listaFichasB, listaFichasN);
+		regla.delListaFichas(listaFichasB, listaFichasN);
+		regla.setListaFichas(listaFichasB, listaFichasN);
+
+
+		if (jugada->idFichaComer != 20) {
+			listaFichasB[jugada->idFichaComer]->estado = -1;
+			
+			regla.setListaFichas(listaFichasB, listaFichasN);//los vectores de Reglas adquieren las posiciones de los de tablero
+			dibujarCementerio(); //Actualizamos la posicion de las fichas para que no obligue a comer a otra ficha cuando ya se ha comido y se ha mandado al cementerio
+										//los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
+
+			graf.ContNegras++; //actualiza el contador de fichas blancas comidas por el bot
+			printf("%d", graf.ContNegras);
+
+			regla.setListaFichas(listaFichasB, listaFichasN);//los vectores de Reglas adquieren las posiciones de los de tablero
+			bot.setListaFichas(listaFichasB, listaFichasN);//los vectores de ReglasBot adquieren las posiciones de los de tablero
+		}
+
+		if (bot.calcularPosicionesPosibles() == true)//Con este if volvemos a comprobar si puede comer de nuevo
+		{
+			jugada = bot.elegirMejorMov();
+			listaFichasN[jugada->idFicha]->posicion.x = (jugada->posSig.x);
+			listaFichasN[jugada->idFicha]->posicion.y = (jugada->posSig.y);
+
+			if (jugada->idFichaComer != 20) {
+				listaFichasB[jugada->idFichaComer]->estado = -1;
+			}
+			bot.setListaFichas(listaFichasB, listaFichasN);//bot iguala sus vectores a los de tablero
+			regla.setListaFichas(listaFichasB, listaFichasN);
+			int k = 0;
+		}
+	
+		regla.hacerReinaBot();
+		bot.delListaFichas(listaFichasB, listaFichasN);
+		regla.delListaFichas(listaFichasB, listaFichasN);
+		bot.setListaFichas(listaFichasB, listaFichasN);//bot iguala sus vectores a los de tablero
+		regla.setListaFichas(listaFichasB, listaFichasN);
+		regla.cambiarTurno();
+	}
+}
 
 void Tablero::dibujarCementerio() {
 	regla.delListaFichas(listaFichasB, listaFichasN);//cada funcion de tablero debe actualizar las fichas con Reglas
 												//de manera independiente
+	
 	int contN = -1;
 	int contB = -8;
 	int contSaltoN = 0;
@@ -389,6 +450,7 @@ void Tablero::dibujarCementerio() {
 			listaFichasB[i]->posicion.x = -9 + auxB;
 			listaFichasB[i]->posicion.y = contB + 0.2;
 			contSaltoB++;
+			int i = 0;
 		}
 		if (contSaltoB == 3)
 		{
@@ -397,6 +459,7 @@ void Tablero::dibujarCementerio() {
 			contSaltoB = 0;
 		}
 	}
+	int i = 0;
 }
 
 void Tablero::Animacion() {
@@ -433,55 +496,7 @@ void Tablero::Animacion() {
 	//Debugueo manual. Eliminar cuando todo funcione correctamente.
 	printf("%f", graf.ojo_y);*/
 }
-void Tablero::jugarBot() {
-	///////los cambios de posicion asignados en este metodo se ejecutan, pero los asignados a estado no
 
-	
-	bool turno = regla.getTurno();
-	Jugada *jugada;
-	if ((bot.mode == 1) && (turno == 0)) {
-
-		bot.setListaFichas(listaFichasB, listaFichasN);//los vectores de ReglasBot adquieren las posiciones de los de tablero
-		regla.setListaFichas(listaFichasB, listaFichasN);//los vectores de Reglas adquieren las posiciones de los de tablero
-
-		int j = 0;
-		
-		bot.calcularPosicionesPosibles();
-
-		jugada = bot.elegirMejorMov();
-		listaFichasN[jugada->idFicha]->posicion.x = (jugada->posSig.x);
-		listaFichasN[jugada->idFicha]->posicion.y = (jugada->posSig.y);
-
-		if (jugada->idFichaComer != 20) {
-			listaFichasB[jugada->idFichaComer]->estado = -1;
-		}
-		if (bot.calcularPosicionesPosibles())//Con este if volvemos a comprobar si puede comer de nuevo
-		{
-			bot.setListaFichas(listaFichasB, listaFichasN);//los vectores de ReglasBot adquieren las posiciones de los de tablero
-			regla.setListaFichas(listaFichasB, listaFichasN);//los vectores de Reglas adquieren las posiciones de los de tablero
-
-			int j = 0;
-
-			bot.calcularPosicionesPosibles();
-			
-			jugada = bot.elegirMejorMov();
-			listaFichasN[jugada->idFicha]->posicion.x = (jugada->posSig.x);
-			listaFichasN[jugada->idFicha]->posicion.y = (jugada->posSig.y);
-
-			if (jugada->idFichaComer != 20) {
-				listaFichasB[jugada->idFichaComer]->estado = -1;
-			}
-			bot.setListaFichas(listaFichasB, listaFichasN);//bot iguala sus vectores a los de tablero
-			regla.setListaFichas(listaFichasB, listaFichasN);
-			int k = 0;
-		}
-		bot.setListaFichas(listaFichasB, listaFichasN);//bot iguala sus vectores a los de tablero
-		regla.setListaFichas(listaFichasB, listaFichasN);
-		int k = 0;
-		
-		regla.cambiarTurno();
-	}
-}
 Tablero::~Tablero()
 {
 

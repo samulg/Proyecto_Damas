@@ -216,7 +216,7 @@ bool Reglas::moverReina() {
 
 
 	//primero comprobamos que la casilla a la que hemos movido sea una casilla diagonal adyacente(+-,--,-+,++)
-	if (((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1)))) {
+	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1)))) && (((posicionSiguiente.x > -7) && (posicionSiguiente.y < 0)) && ((posicionSiguiente.x < 0) && (posicionSiguiente.y > -7)))) {
 		//ahora comprobamos que no haya ninguna ficha ahi 
 		for (i = 0; i < 12; i++) {
 			int h;
@@ -395,7 +395,7 @@ bool Reglas::movDiagUnitN() {
 	bool aux = false;
 	//primero comprobamos que adonde quiere mover es la casilla diagonal
 
-	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))))   &&   (((posicionSiguiente.x > -7) && (posicionSiguiente.y < 0)) && ((posicionSiguiente.x < 0) && (posicionSiguiente.y > -7)))) {//posicionSiguiente debe estar dentro del tablero
+	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))))   &&   (((posicionSiguiente.x >= -7) && (posicionSiguiente.y <= 0)) && ((posicionSiguiente.x <= 0) && (posicionSiguiente.y >= -7)))) {//posicionSiguiente debe estar dentro del tablero
 		//ahora comprobamos que no haya ninguna ficha ahi 
 
 		for (i = 0; i < 12; i++) {
@@ -576,6 +576,16 @@ void Reglas::hacerReinaN() {
 
 		}
 	}
+	int j = 0;
+}
+void Reglas::hacerReinaBot() {
+	for (int i = 0; i < 12; i++)
+	{
+		if (listaFichasNe[i]->posicion.y == 0) {
+			listaFichasNe[i]->estado = 1;
+		}
+	}
+	int i = 0;
 }
 
 bool Reglas::posibleComerConReinaN() {
@@ -681,14 +691,13 @@ bool Reglas::fichaComidaConReinaN() {
 							diagIzq = true;
 							listaFichasBl[v]->estado = -1;
 							break;
-							int a;
+						int a;
 						}
 						else
 							diagIzq = false;
 					}
 				}
 			}
-
 		}
 	}
 	else
@@ -777,8 +786,6 @@ void Reglas::setListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> li
 void Reglas::delListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> listaN) {
 	int i = 0;
 	for (i = 0; i < 12; i++) {
-		//listaN[i]->posicion.x = listaFichasN[i]->posicion.x;
-		//listaN[i]->posicion.y = listaFichasN[i]->posicion.y;
 		listaB[i]->estado = listaFichasBl[i]->estado;
 		listaN[i]->estado = listaFichasNe[i]->estado;
 		
