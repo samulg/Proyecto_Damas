@@ -1,0 +1,3 @@
+﻿  Reglas.cpp
+c:\users\samue\desktop\reglas movimiento\pang\src\reglas.cpp(48): warning C4101: 'h': variable local sin referencia
+  Pang.vcxproj -> C:\Users\samue\Desktop\reglas movimiento\Pang\bin\Pang.exe
