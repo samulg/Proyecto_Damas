@@ -77,8 +77,10 @@ void Tablero::dibujarFichasIniciales() {
 			}
 		}
 	}
-	//regla.setListaFichas(listaFichasB, listaFichasN);
-
+	regla.delListaFichas(listaFichasB, listaFichasN);
+	int m=0;
+	int n = 1;
+	n = m;
 }
 void Tablero::moverMano(unsigned char tecla) {
 	bool fichaComida = false;
@@ -138,6 +140,8 @@ void Tablero::moverMano(unsigned char tecla) {
 
 	if (tecla == ' ' && hand.seleccionada == true) {
 		regla.setListaFichas(listaFichasB, listaFichasN);//le pasamos a "Reglas.h" las posiciones de las fichas blancas y negras y
+
+		
 		//actualizamos dichas posiciones cada vez que se pulsa el espacio
 
 		if (turno == 1) {
@@ -164,7 +168,13 @@ void Tablero::moverMano(unsigned char tecla) {
 						listaFichasB[aux]->posicion.x = (-hand.cm);//estas dos instrucciones
 						listaFichasB[aux]->posicion.y = (-hand.fm);//son las que redibujan la ficha (actualizando su posicion
 						hand.seleccionada = false;
+						regla.delListaFichas(listaFichasB, listaFichasN);//Nos devuelve los estados de las fichas
+																		//los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
 						regla.setListaFichas(listaFichasB, listaFichasN);
+						
+						int m = 0;
+						int n = 1;
+						n = m;
 						if (regla.posibleComerFicha() == false) {
 							controlSeleccion = regla.cambiarTurno();
 							hand.seleccionada = false;
@@ -206,8 +216,15 @@ void Tablero::moverMano(unsigned char tecla) {
 		}
 	}
 }
+void Tablero::contarMuertas(){
 
+	for (int i = 0; i < 20; i++) {
+		//if (listaFichasN[i]->estado == -1)
+		//	FichaNegra::contador++;
+	}
+}
 Tablero::~Tablero()
 {
+
 
 }

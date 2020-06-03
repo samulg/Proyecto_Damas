@@ -33,7 +33,7 @@ public:
 	void dibujarTablero();
 	void dibujarFichasIniciales();
 	void moverMano(unsigned char tecla);
-
+	void contarMuertas();//necesario tener en cuenta a la madre de manuel
 	//Vector2D getCasilla(int f, int c); 
 	//void dibujarFichasIniciales();
 	~Tablero();

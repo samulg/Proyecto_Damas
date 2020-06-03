@@ -6,7 +6,9 @@ class Ficha
 public:
 	Ficha();
 	Vector2D posicion;
+	
 	virtual void dibujarFicha()= 0;
+	int estado = 0;
 
 	~Ficha();
 };

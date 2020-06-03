@@ -1,6 +1,4 @@
-﻿  Reglas.cpp
-c:\users\samue\desktop\proyecto con samu\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\reglas.cpp(48): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\proyecto con samu\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\reglas.cpp(67): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\proyecto con samu\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\reglas.cpp(95): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\proyecto con samu\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\reglas.cpp(161): warning C4715: 'Reglas::movComerAdicional': no todas las rutas de acceso de control devuelven un valor
-  Pang.vcxproj -> C:\Users\samue\Desktop\PROYECTO CON SAMU\25-03-2020_ReglasFuncionando\comer fichas doble Funciona mal LO DE MIKEL\comer fichas doble Funciona mal\Pang\bin\Pang.exe
+﻿  Tablero.cpp
+c:\users\samue\desktop\actual - copia\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\tablero.cpp(96): warning C4101: 'y': variable local sin referencia
+c:\users\samue\desktop\actual - copia\25-03-2020_reglasfuncionando\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\tablero.cpp(96): warning C4101: 'x': variable local sin referencia
+  Pang.vcxproj -> C:\Users\samue\Desktop\ACTUAL - copia\25-03-2020_ReglasFuncionando\comer fichas doble Funciona mal LO DE MIKEL\comer fichas doble Funciona mal\Pang\bin\Pang.exe

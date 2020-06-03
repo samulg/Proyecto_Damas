@@ -76,7 +76,9 @@ bool Reglas::fichaComida() {
 					//Aqui comprobamos que hay una ficha del otro color en medio de la diagonal 
 					if (((posicionActual.x + 1) == listaFichasN[v]->posicion.x) && ((posicionActual.y - 1) == listaFichasN[v]->posicion.y)) {
 						diagIzq = true;
+						listaFichasN[v]->estado = -1;
 						break;
+						int a;
 					}
 					else
 						diagIzq = false;
@@ -106,6 +108,7 @@ bool Reglas::fichaComida() {
 					//Aqui comprobamos que hay una ficha del otro color en medio de la diagonal 
 					if (((posicionActual.x - 1) == listaFichasN[k]->posicion.x) && ((posicionActual.y - 1) == listaFichasN[k]->posicion.y)) {
 						diagDer = true;
+						listaFichasN[k]->estado = -1;
 						break;
 					}
 					else
@@ -254,7 +257,13 @@ void Reglas::setListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> li
 		listaFichasN[i]->posicion.y = listaN[i]->posicion.y;	
 	}
 }
-
+void Reglas::delListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> listaN) {
+	int i = 0;
+	for (i = 0; i < 20; i++) {
+		
+		listaN[i]->estado = listaFichasN[i]->estado;
+	}
+}
 Reglas::~Reglas()
 {
 
