@@ -37,12 +37,12 @@ public:
 	int controlSeleccion;//variable de control para los if del onkeyboardDown (evita que se actualicen instantáneamente)
 	float cont1;
 	float cont2;
-
+/*
 	struct  posActSigu {
 		int idFicha;
 		Vector2D posSig;
 	};
-
+	*/
 	//Metodos
 	void dibujarTablero();
 	void dibujarFichasIniciales();
@@ -50,6 +50,7 @@ public:
 	void contarMuertas();
 	void dibujarCementerio();
 	void Animacion();
+	void jugarBot();
 
 	~Tablero();
 };

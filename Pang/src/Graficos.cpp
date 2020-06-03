@@ -292,7 +292,7 @@ void Graficos::DibTab() {
 	glDisable(GL_TEXTURE_2D);
 
 	//Salida del juego.
-	if ((ContNegras == 2) || (ContBlancas == 2))
+	if ((ContNegras == 12) || (ContBlancas == 12))
 	{
 		Escena = 6;
 	}

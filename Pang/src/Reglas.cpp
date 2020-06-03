@@ -34,6 +34,7 @@ bool Reglas::movDiagUnit() {
 	//el primer if funciona (solo devuelve true cuando has movido una diagonal unitaria a la derecha o a la izquierda
 	if (((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y - 1)))|| ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y - 1)))) {
 		//ahora comprobamos que no haya ninguna ficha ahi 
+		int h = 1;
 		for (i = 0; i < 12; i++) {
 			int h;
 			if ((posicionSiguiente = listaFichasBl[i]->posicion) || (posicionSiguiente = listaFichasNe[i]->posicion))
@@ -394,8 +395,9 @@ bool Reglas::movDiagUnitN() {
 	bool aux = false;
 	//primero comprobamos que adonde quiere mover es la casilla diagonal
 
-	if (((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1)))) {
+	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))))   &&   (((posicionSiguiente.x > -7) && (posicionSiguiente.y <= 0)) && ((posicionSiguiente.x <= 0) && (posicionSiguiente.y > -7)))) {//posicionSiguiente debe estar dentro del tablero
 		//ahora comprobamos que no haya ninguna ficha ahi 
+
 		for (i = 0; i < 12; i++) {
 			int h;
 			if ((posicionSiguiente = listaFichasBl[i]->posicion) || (posicionSiguiente = listaFichasNe[i]->posicion))
@@ -407,6 +409,7 @@ bool Reglas::movDiagUnitN() {
 	}
 	else
 		return false;
+
 }
 bool Reglas::posibleComerFichaN() {
 	//esta funcion devuelve true si es posible comer otra vez
@@ -754,6 +757,7 @@ void Reglas::setListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> li
 		listaFichasBl[i]->posicion.y = listaB[i]->posicion.y;
 		listaFichasNe[i]->posicion.y = listaN[i]->posicion.y;	
 	}
+	int j = 0;
 }
 
 void Reglas::delListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> listaN) {
@@ -763,7 +767,9 @@ void Reglas::delListaFichas(std::vector <Ficha*> listaB, std::vector <Ficha*> li
 		//listaN[i]->posicion.y = listaFichasN[i]->posicion.y;
 		listaB[i]->estado = listaFichasBl[i]->estado;
 		listaN[i]->estado = listaFichasNe[i]->estado;
+		
 	}
+	int j = 0;
 }
 
 Reglas::~Reglas()

@@ -42,7 +42,7 @@
     <ClCompile Include="src\Graficos.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="ReglasBot.cpp">
+    <ClCompile Include="src\ReglasBot.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +71,10 @@
     <ClInclude Include="src\Graficos.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ReglasBot.h">
+    <ClInclude Include="src\ReglasBot.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Jugada.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

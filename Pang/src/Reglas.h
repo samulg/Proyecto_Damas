@@ -13,15 +13,15 @@ class Reglas
 protected:
 	std::vector <Ficha*> listaFichasBl;
 	std::vector <Ficha*> listaFichasNe;
-
+	bool diagDer[20];
+	bool diagIzq[20];
 
 private:
 	bool turno;
 	Vector2D posicionActual;
 	Vector2D posicionSiguiente;
 
-	bool diagDer[20];
-	bool diagIzq[20];
+
 	//bool fichaComida;
 public:
 	Reglas();

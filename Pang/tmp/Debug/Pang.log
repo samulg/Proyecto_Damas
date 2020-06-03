@@ -1,2 +1,6 @@
 ﻿  ReglasBot.cpp
-c1xx : fatal error C1083: No se puede abrir el archivo origen: 'ReglasBot.cpp': No such file or directory
+c:\users\samue\desktop\19-04-2020_bot3\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\reglasbot.cpp(71): warning C4018: '<': no coinciden signed/unsigned
+c:\users\samue\desktop\19-04-2020_bot3\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\reglasbot.cpp(78): warning C4018: '<': no coinciden signed/unsigned
+c:\users\samue\desktop\19-04-2020_bot3\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\reglasbot.cpp(81): warning C4018: '<': no coinciden signed/unsigned
+c:\users\samue\desktop\19-04-2020_bot3\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\reglasbot.cpp(92): warning C4018: '<': no coinciden signed/unsigned
+  Pang.vcxproj -> C:\Users\samue\Desktop\19-04-2020_Bot3\17-04-2020_Bot1\15-04-2020_GraficosDefinitivos\15-04-2020_GraficosDefinitivos\Pang\bin\Pang.exe

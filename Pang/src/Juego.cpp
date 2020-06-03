@@ -65,6 +65,7 @@ void OnDraw(void)
 	tabler.dibujarTablero();
 	tabler.dibujarFichasIniciales();
 	tabler.dibujarCementerio();
+	tabler.jugarBot();
 
 	
 	//no borrar esta linea ni poner nada despues

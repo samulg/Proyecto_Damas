@@ -126,7 +126,7 @@ void Tablero::moverMano(unsigned char tecla) {
 	}
 
 	//Para Negras. Comprobar la gestión de las negras en función del modo.
-	if ((turno == 0) && (bot.mode = 0)) {
+	if ((turno == 0) && (bot.mode == 0)) {
 		if ((tecla == 'w') && (hand.fm > 0)) {
 			(hand.fm)--;
 		}
@@ -159,7 +159,7 @@ void Tablero::moverMano(unsigned char tecla) {
 		graf.Escena = 5;
 	}
 
-	//Accedemos al 1vsBot. Deshabilitado por ahora
+	//Accedemos al 1vsBot. 
 	if ((tecla == '2') && (graf.Escena == 0))
 	{
 		bot.mode = 1;
@@ -300,8 +300,8 @@ void Tablero::moverMano(unsigned char tecla) {
 
 		}
 		////////////////////////////////////////////////////
-		//negras OJO CON  ESTE IF QUE HAY QUE REACONDICIONARLO PARA EL MODO DE JUEGO.
-		else if (bot.mode == 0) {
+		//negras
+		else if (bot.mode == 0) {//turno de negras y bot desactivado
 
 			posActual.x = -(hand.fichaSeleccionada.x);
 			posActual.y = -(hand.fichaSeleccionada.y);
@@ -363,15 +363,15 @@ void Tablero::moverMano(unsigned char tecla) {
 
 			}
 		}
-		else {
-		bot.calcularPosicionesPosibles();
-		}
+		
 
 
 	}
-
+	
 
 }
+
+
 
 void Tablero::dibujarCementerio() {
 	regla.delListaFichas(listaFichasB, listaFichasN);//cada funcion de tablero debe actualizar las fichas con Reglas
@@ -450,7 +450,23 @@ void Tablero::Animacion() {
 	//Debugueo manual. Eliminar cuando todo funcione correctamente.
 	printf("%f", graf.ojo_y);*/
 }
-
+void Tablero::jugarBot() {
+	bool turno = regla.getTurno();
+	Jugada *jugada;
+	if ((bot.mode == 1) && (turno == 0)) {
+		int j = 0;
+		
+		bot.calcularPosicionesPosibles();
+		////////////////////////////////////////error
+		///jugada no recoge los valores (posSigu vale 0). bot si esta enviando valores. Probar con punteros
+		jugada = bot.elegirMejorMov();
+		listaFichasN[jugada->idFicha]->posicion.x = (jugada->posSig.x);
+		listaFichasN[jugada->idFicha]->posicion.y = (jugada->posSig.y);
+		bot.setListaFichas(listaFichasB, listaFichasN);
+		int k = 0;
+		regla.cambiarTurno();
+	}
+}
 Tablero::~Tablero()
 {
 
