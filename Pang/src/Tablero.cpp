@@ -81,6 +81,7 @@ void Tablero::dibujarFichasIniciales() {
 
 }
 void Tablero::moverMano(unsigned char tecla) {
+	bool fichaComida = false;
 	Vector2D posSiguiente;//vector auxiliar para regla.setPosSig() la posicion siguiente (a donde voy)
 	Vector2D posActual;//vector auxiliar para pasar a regla.setPosAct() la posicion anterior (de donde vengo)
 	bool turno = false;//variable local para recoger el turno de Reglas
@@ -113,6 +114,7 @@ void Tablero::moverMano(unsigned char tecla) {
 			for (i = 0; i < 20; i++) {
 				//codigo para iluminar la casilla seleccionada (comprobamos que esté ocupada por una casilla blanca)
 				if (listaFichasB[i]->posicion.x == (-hand.cm) && listaFichasB[i]->posicion.y == (-hand.fm)) {
+
 					aux = i;
 					hand.seleccionada = true;
 					hand.fichaSeleccionada.x = hand.cm;
@@ -137,8 +139,8 @@ void Tablero::moverMano(unsigned char tecla) {
 	if (tecla == ' ' && hand.seleccionada == true) {
 		regla.setListaFichas(listaFichasB, listaFichasN);//le pasamos a "Reglas.h" las posiciones de las fichas blancas y negras y
 		//actualizamos dichas posiciones cada vez que se pulsa el espacio
-		
-		if (turno == 1 ) {
+
+		if (turno == 1) {
 			//aquí entra con el primer espacio que pulsa , pero no vuelve a entrar(a reactualizar los valores de posicion) hasta que no pulso espacio por
 			//segunda vez
 			posActual.x = -(hand.fichaSeleccionada.x);
@@ -148,26 +150,58 @@ void Tablero::moverMano(unsigned char tecla) {
 			//si no pongo "controlSeleccion", cada espacio que dé cambia de turno, y lo que quiero es que cambie de turno al
 			//segundo espacio (el primero selecciona ficha, el segundo la coloca y después cambia el turno)
 			//el mismo cambio de turno pone controlSeleccion a 0;
-			controlSeleccion++;
-			
+			controlSeleccion++;//si el movimiento es legal y ha finiquitado controlSeleccion= a cambiarTurno
+			//sino controlSeleccion = 1;
+
 			if (controlSeleccion == 2) {
 				posSiguiente.x = (-hand.cm);
 				posSiguiente.y = (-hand.fm);
 				regla.setPosSig(posSiguiente);
-				int h = 1;
-				if ((regla.movDiagUnit()) == true) { //comprobamos que el movimiento es legal
-					listaFichasB[aux]->posicion.x = (-hand.cm);//estas dos instrucciones
-					listaFichasB[aux]->posicion.y = (-hand.fm);//son las que redibujan la ficha (actualizando su posicion)
-					hand.seleccionada = false;//eliminamos la casilla seleccionada
-					controlSeleccion = regla.cambiarTurno();//le pasamos el turno a las negras
+				///////ERROR una vez que detecta una ficha negra adyacente se bloquea para siempre
+				if (regla.posibleComerFicha()) {//posibleComerFicha da positivo cuando hay una ficha negra adyacente (no comprueba que una casilla más allá este libre)
+ 					int h = 1;
+					if (regla.fichaComida()) {
+						//era posible comer y ha comido
+						listaFichasB[aux]->posicion.x = (-hand.cm);//estas dos instrucciones
+						listaFichasB[aux]->posicion.y = (-hand.fm);//son las que redibujan la ficha (actualizando su posicion)
+						controlSeleccion = regla.cambiarTurno();
+						hand.seleccionada = false;
+						/*
+						if (regla.movComerAdicional()) {//si puedo seguir comiendo
+							listaFichasB[aux]->posicion.x = (-hand.cm);
+							listaFichasB[aux]->posicion.y = (-hand.fm);
+							controlSeleccion = 1;
+
+						}
+						else {
+							controlSeleccion = regla.cambiarTurno();
+							hand.seleccionada = false;
+							
+						}
+						*/
+					}
+					else {
+						controlSeleccion = 1;
+					}
 				}
-				else
-					controlSeleccion = 1;
+				else {
+					if (regla.movDiagUnit()) {
+						listaFichasB[aux]->posicion.x = (-hand.cm);
+						listaFichasB[aux]->posicion.y = (-hand.fm);
+						hand.seleccionada = false;
+						controlSeleccion = regla.cambiarTurno();
+					}
+					else
+						controlSeleccion = 1;
+				}
+
 			}
+
 		}
+
 		else {
 			//aquí entra con el segundo espacio
-			//falta por duplicar el código de comprobacion del movimiento
+		
 			listaFichasN[aux]->posicion.x = (-hand.cm);
 			listaFichasN[aux]->posicion.y = (-hand.fm);
 

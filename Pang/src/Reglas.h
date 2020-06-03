@@ -16,6 +16,7 @@ private:
 	Vector2D posicionSiguiente;
 	std::vector <Ficha*> listaFichasB;
 	std::vector <Ficha*> listaFichasN;
+	//bool fichaComida;
 public:
 	Reglas();
 	//bool turno;
@@ -26,9 +27,12 @@ public:
 	//intentar que todo el código sea igual, es decir, en tablero se acceden a métodos de reglas, nunca a variables.
 	//para ello, crear métodos getVariable() ó setVariable
 	bool movDiagUnit();//devuelve '1' si el movimiento que se quiere realizar es una diagonal unitaria, y además no pisa a otra ficha
+	bool fichaComida();//devuelve '1' si el movimiento de comer se ha realizado correctamente
+	bool movComerAdicional();
 	void setPosAct(Vector2D);
 	void setPosSig(Vector2D);
 	void setListaFichas(std::vector <Ficha*>, std::vector <Ficha*>);
+	bool posibleComerFicha();//devuelve '1' si es posible para blancas comer alguna ficha
 
 	~Reglas();
 };

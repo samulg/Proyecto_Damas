@@ -1,3 +1,4 @@
-﻿  Reglas.cpp
-c:\users\samue\desktop\reglas movimiento\pang\src\reglas.cpp(48): warning C4101: 'h': variable local sin referencia
-  Pang.vcxproj -> C:\Users\samue\Desktop\reglas movimiento\Pang\bin\Pang.exe
+﻿  Tablero.cpp
+c:\users\mikel\onedrive\documentos\trabajo informática (mikel)\20-03-2020_reglascasifuncionandoconlodemikel\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\tablero.cpp(94): warning C4101: 'y': variable local sin referencia
+c:\users\mikel\onedrive\documentos\trabajo informática (mikel)\20-03-2020_reglascasifuncionandoconlodemikel\comer fichas doble funciona mal lo de mikel\comer fichas doble funciona mal\pang\src\tablero.cpp(94): warning C4101: 'x': variable local sin referencia
+  Pang.vcxproj -> C:\Users\mikel\OneDrive\Documentos\Trabajo informática (Mikel)\20-03-2020_ReglasCasiFuncionandoConLoDeMikel\comer fichas doble Funciona mal LO DE MIKEL\comer fichas doble Funciona mal\Pang\bin\Pang.exe
