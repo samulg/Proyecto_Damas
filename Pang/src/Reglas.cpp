@@ -321,7 +321,7 @@ bool Reglas::fichaComidaConReina() {
 	if ((posicionSiguiente.x == (posicionActual.x + 2)) && (posicionSiguiente.y == (posicionActual.y + 2))) {
 		for (i = 0; i < 12; i++) {
 			int h;
-			if (listaFichasBl[i]->estado == 1) {
+			if (listaFichasBl[i]->estado == 1) {//solo evaluamos las que sean reinas
 				//Comprobamos que no haya ninguna ficha ahi
 				if ((posicionSiguiente = listaFichasBl[i]->posicion) || (posicionSiguiente = listaFichasNe[i]->posicion)) {
 					diagIzq = false;

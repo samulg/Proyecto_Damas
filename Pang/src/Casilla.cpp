@@ -6,6 +6,10 @@ Casilla::Casilla()
 	fm = 5;
 	cm = 5;
 	seleccionada = false;
+
+	posAnteriorBot.x = 20;
+	posAnteriorBot.y = 20;
+
 }
 
 void Casilla::dibujarCasilla(int f, int c) {
@@ -165,6 +169,31 @@ void Casilla::dibujarSeleccion(void) {
 		glDisable(GL_TEXTURE_2D);
 		glTranslatef((-coordenadas.x), (-coordenadas.y), 0);
 	}
+}
+
+void Casilla::dibujarJugadaBot() {
+	Vector2D coord;
+	glColor3ub(255, 255, 0);
+	coord.x = (-posAnteriorBot.x - 0.5);
+	coord.y = (-posAnteriorBot.y - 0.5);
+
+	glTranslatef((coord.x), (coord.y), 0);
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/MarmolVerde.png").id);
+
+	glBegin(GL_POLYGON);
+	glColor3f(200, 200, 200);
+
+	glTexCoord2d(0, 1);	 glVertex3f(0.0f, 0.0f, 0.01f);
+	glTexCoord2d(1, 1);	 glVertex3f(1.0f, 0.0f, 0.01f);
+	glTexCoord2d(1, 0);	 glVertex3f(1.0f, 1.0f, 0.01f);
+	glTexCoord2d(0, 0);	 glVertex3f(0.0f, 1.0f, 0.01f);
+
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glTranslatef((-coord.x), (-coord.y), 0);
+
 }
 Casilla::~Casilla()
 {

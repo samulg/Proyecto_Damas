@@ -1,8 +1,4 @@
 ﻿  ReglasBot.cpp
-c:\users\samue\desktop\24-04-2020_bot_negrascomidadoble\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\reglasbot.cpp(154): warning C4018: '<': no coinciden signed/unsigned
-c:\users\samue\desktop\24-04-2020_bot_negrascomidadoble\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\reglasbot.cpp(166): warning C4018: '<': no coinciden signed/unsigned
-  Tablero.cpp
-c:\users\samue\desktop\24-04-2020_bot_negrascomidadoble\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\tablero.cpp(103): warning C4101: 'y': variable local sin referencia
-c:\users\samue\desktop\24-04-2020_bot_negrascomidadoble\17-04-2020_bot1\15-04-2020_graficosdefinitivos\15-04-2020_graficosdefinitivos\pang\src\tablero.cpp(103): warning C4101: 'x': variable local sin referencia
-  Generando código...
-  Pang.vcxproj -> C:\Users\samue\Desktop\24-04-2020_Bot_NegrasComidaDoble\17-04-2020_Bot1\15-04-2020_GraficosDefinitivos\15-04-2020_GraficosDefinitivos\Pang\bin\Pang.exe
+c:\users\samue\desktop\botconhuella\botconhuella\pang\src\reglasbot.cpp(194): warning C4018: '<': no coinciden signed/unsigned
+c:\users\samue\desktop\botconhuella\botconhuella\pang\src\reglasbot.cpp(203): warning C4018: '<': no coinciden signed/unsigned
+  Pang.vcxproj -> C:\Users\samue\Desktop\BotConHuella\BotConHuella\Pang\bin\Pang.exe
