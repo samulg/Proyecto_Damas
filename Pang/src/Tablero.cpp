@@ -4,7 +4,7 @@ Tablero::Tablero()
 {
 	//reservamos memoria para la matriz de punteros del trablero
 	controlSeleccion = 0;
-	n = 10, m = 10;
+	n = 8, m = 8;
 	c = new Casilla *[n];		//filas
 	for (i = 0; i < n; i++) {
 		c[i] = new Casilla[m];     //columnas
@@ -14,8 +14,8 @@ Tablero::Tablero()
 
 	//blancas
 	int p = 0;
-	for (i = 0; i < 4; i++) {
-		for (j = 0; j < 10; j++) {
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
 				listaFichasB.push_back(new FichaBlanca(i,j));
 				p++;
@@ -24,8 +24,8 @@ Tablero::Tablero()
 	}
 
 	//negras
-	for (i = 6; i < 10; i++) {
-		for (j = 0; j < 10; j++) {
+	for (i = 5; i < 8; i++) {
+		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
 				listaFichasN.push_back(new FichaNegra(i, j));	
 			}
@@ -40,8 +40,8 @@ void Tablero::dibujarTablero() {
 		5.0, 5.0, 0.0,      // hacia que punto mira  (0,0,0) 
 		0.0, 0.0, 1.0);      // definimos hacia arriba (eje Z) 
 
-	for (i = 0; i < 10; i++) {	//cada i es una fila del tablero
-		for (j = 0; j < 10; j++) { //cada j es una columna del tablero
+	for (i = 0; i < 8; i++) {	//cada i es una fila del tablero
+		for (j = 0; j < 8; j++) { //cada j es una columna del tablero
 			c[i][j].dibujarCasilla(i,j);
 		}
 	}
@@ -59,8 +59,8 @@ void Tablero::dibujarFichasIniciales() {
 	int aux2 = 0;
 
 	//las posiciones de las fichas se cambian en otros métodos, éste solo invoca el dibujode las 20 fichas
-	for (i = 0; i < 4; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
-		for (j = 0; j < 10; j++) {
+	for (i = 0; i < 3; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
+		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
 				
 					listaFichasB[nb]->dibujarFicha();
@@ -71,8 +71,8 @@ void Tablero::dibujarFichasIniciales() {
 	}
 
 	//negras
-	for (i = 6; i < 10; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
-		for (j = 0; j < 10; j++) {
+	for (i = 5; i < 8; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
+		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
 				
 					listaFichasN[nn]->dibujarFicha();
@@ -97,7 +97,7 @@ void Tablero::moverMano(unsigned char tecla) {
 
 	turno = 1;
 	float x, y;
-	if (tecla == 'w' && hand.fm < 9) {
+	if (tecla == 'w' && hand.fm < 7) {
 		(hand.fm)++;
 	}
 
@@ -105,7 +105,7 @@ void Tablero::moverMano(unsigned char tecla) {
 		(hand.cm)--;
 	}
 
-	if (tecla == 'd' && hand.cm < 9) {
+	if (tecla == 'd' && hand.cm < 7) {
 		(hand.cm)++;
 	}
 
@@ -116,7 +116,7 @@ void Tablero::moverMano(unsigned char tecla) {
 	if (tecla == ' ') {
 		turno = regla.getTurno();
 		if (turno == 1) {
-			for (i = 0; i < 20; i++) {
+			for (i = 0; i < 12; i++) {
 				//codigo para iluminar la casilla seleccionada (comprobamos que esté ocupada por una casilla blanca)
 				if (listaFichasB[i]->posicion.x == (-hand.cm) && listaFichasB[i]->posicion.y == (-hand.fm)) {
 
@@ -129,7 +129,7 @@ void Tablero::moverMano(unsigned char tecla) {
 		}
 
 		if (turno == 0) {
-			for (i = 0; i < 20; i++) {
+			for (i = 0; i < 12; i++) {
 				//codigo para iluminar la casilla seleccionada (comprobamos que esté ocupada por una casilla negra)
 				if (listaFichasN[i]->posicion.x == (-hand.cm) && listaFichasN[i]->posicion.y == (-hand.fm)) {
 					aux = i;
@@ -165,10 +165,10 @@ void Tablero::moverMano(unsigned char tecla) {
 				posSiguiente.y = (-hand.fm);
 				regla.setPosSig(posSiguiente);
 
-				if (regla.posibleComerFicha()|| (regla.posibleComerConReina())) {//posibleComerFicha da positivo cuando hay una ficha negra adyacente (no comprueba que una casilla más allá este libre)
+				if (regla.posibleComerFicha() || (regla.posibleComerConReina())) {//posibleComerFicha da positivo cuando hay una ficha negra adyacente (no comprueba que una casilla más allá este libre)
 																													//Incluyo tambien la posible comida de las reinas hacia atras
 					int h = 1;
-					if (regla.fichaComida()||(regla.fichaComidaConReina())) {
+					if (regla.fichaComida() || (regla.fichaComidaConReina())) {
 
 						//era posible comer y ha comido
 						listaFichasB[aux]->posicion.x = (-hand.cm);//estas dos instrucciones
@@ -186,7 +186,7 @@ void Tablero::moverMano(unsigned char tecla) {
 						int m = 0;
 						int n = 1;
 						n = m;
-						if (regla.posibleComerFicha() == false && (regla.posibleComerConReina()==false)) {
+						if ((regla.posibleComerFicha() == false) && (regla.posibleComerConReina() == false)) {
 							controlSeleccion = regla.cambiarTurno();
 							hand.seleccionada = false;
 						}
@@ -194,47 +194,99 @@ void Tablero::moverMano(unsigned char tecla) {
 							controlSeleccion = 1;
 						}
 					}
-					
+
 					else {
 						controlSeleccion = 1;
 					}
 				}
 				//si no es posible comer ficha implemento los movimientos normales, tanto para las fichas normales
 				//como para la reina (esta adicionalmente tiene que comprobar que la ficha en cuestion sea reina)
-				else if  (regla.movDiagUnit()||(regla.moverReina()&&listaFichasB[aux]->estado ==1)) {
-						listaFichasB[aux]->posicion.x = (-hand.cm);
-						listaFichasB[aux]->posicion.y = (-hand.fm);
-						hand.seleccionada = false;
-						controlSeleccion = regla.cambiarTurno();
-						regla.hacerReina();
-					}
-					else
-						controlSeleccion = 1;
-			
+				else if (regla.movDiagUnit() || (regla.moverReina() && (listaFichasB[aux]->estado == 1))) {
+					listaFichasB[aux]->posicion.x = (-hand.cm);
+					listaFichasB[aux]->posicion.y = (-hand.fm);
+					hand.seleccionada = false;
+					controlSeleccion = regla.cambiarTurno();
+					regla.hacerReina();
+				}
+				else
+					controlSeleccion = 1;
+
 
 			}
 
 		}
+		////////////////////////////////////////////////////
+		//negras
 		else {
-			//aquí entra con el segundo espacio
+						
+			posActual.x = -(hand.fichaSeleccionada.x);
+			posActual.y = -(hand.fichaSeleccionada.y);
+			regla.setPosAct(posActual);//fichaSeleccionada guarda la posicion inicial de la ficha (de donde viene)
 
-			listaFichasN[aux]->posicion.x = (-hand.cm);
-			listaFichasN[aux]->posicion.y = (-hand.fm);
-
-			controlSeleccion++;
+			//si no pongo "controlSeleccion", cada espacio que dé cambia de turno, y lo que quiero es que cambie de turno al
+			//segundo espacio (el primero selecciona ficha, el segundo la coloca y después cambia el turno)
+			//el mismo cambio de turno pone controlSeleccion a 0;
+			controlSeleccion++;//si el movimiento es legal y ha finiquitado controlSeleccion= a cambiarTurno
+			//sino controlSeleccion = 1;
 
 			if (controlSeleccion == 2) {
-				hand.seleccionada = false;
-				controlSeleccion = regla.cambiarTurno();
+				posSiguiente.x = (-hand.cm);
+				posSiguiente.y = (-hand.fm);
+				regla.setPosSig(posSiguiente);
+				if ((regla.posibleComerFichaN())|| (regla.posibleComerConReinaN())) {//da falsos positivos cuando no es posible comer
+					int h = 1;
+					if ((regla.fichaComidaN()) || (regla.fichaComidaConReinaN())) {
+
+						//era posible comer y ha comido
+						listaFichasN[aux]->posicion.x = (-hand.cm);
+						listaFichasN[aux]->posicion.y = (-hand.fm);
+						hand.seleccionada = false;
+						regla.delListaFichas(listaFichasB, listaFichasN);
+						regla.hacerReinaN();
+						dibujarCementerio(); 
+						///////////////////////////////////////////////////////////////////
+						regla.setListaFichas(listaFichasB, listaFichasN);
+
+						int m = 0;
+						int n = 1;
+						n = m;
+						if ((regla.posibleComerFichaN() == false) && (regla.posibleComerConReinaN() == false)) {
+							controlSeleccion = regla.cambiarTurno();
+							hand.seleccionada = false;
+						}
+						else {
+							controlSeleccion = 1;
+						}
+					}
+
+					else {
+						controlSeleccion = 1;
+					}
+				}
+				
+				else if (regla.movDiagUnitN() || (regla.moverReina() && listaFichasN[aux]->estado == 1)) {
+					listaFichasN[aux]->posicion.x = (-hand.cm);
+					listaFichasN[aux]->posicion.y = (-hand.fm);
+					hand.seleccionada = false;
+					controlSeleccion = regla.cambiarTurno();
+					regla.hacerReinaN();
+				}
+				else
+					controlSeleccion = 1;
+
+
 			}
 		}
-	}
+
+		}
+		
+
 }
 void Tablero::contarMuertas(){
 	//FichaNegra::contador = 0;
 	regla.delListaFichas(listaFichasB, listaFichasN);
 	int cont = 0;//contador auxiliar
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 12; i++) {
 
 		if (listaFichasN[i]->estado == -1) {
 			FichaNegra::contador++;
@@ -247,15 +299,43 @@ void Tablero::contarMuertas(){
 void Tablero::dibujarCementerio() {
 	regla.delListaFichas(listaFichasB, listaFichasN);//cada funcion de tablero debe actualizar las fichas con Reglas
 												//de manera independiente
-	int cont = 0;
-	for (int i = 0; i < 20; i++) {
+	int contN = -1;
+	int contB = -8;
+	int contSaltoN = 0;
+	int contSaltoB = 0;
+	int auxN = 0;
+	int auxB = 0;
+	for (int i = 0; i < 12; i++) {
 
 		if (listaFichasN[i]->estado == -1) {		
-			cont++;
-			listaFichasN[i]->posicion.x = 2;
-			listaFichasN[i]->posicion.y = -(cont+0.2);
+			contN++;
+			listaFichasN[i]->posicion.x = 2+auxN;
+			listaFichasN[i]->posicion.y = -(contN+0.2);
+			contSaltoN++;
+		}
+		if (contSaltoN == 3)
+		{
+			auxN++;
+			contN = -1;
+			contSaltoN = 0;
 		}
 		
+	}
+	for (int i = 0; i < 12; i++) {
+
+		if (listaFichasB[i]->estado == -1) {
+			contB++;
+			listaFichasB[i]->posicion.x = -9+auxB;
+			listaFichasB[i]->posicion.y = contB + 0.2;
+			contSaltoB++;
+		}
+		if (contSaltoB == 3)
+		{
+			auxB--;
+			contB = -8;
+			contSaltoB = 0;
+		}
+
 	}
 }
 

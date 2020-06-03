@@ -10,7 +10,7 @@ FichaBlanca::FichaBlanca(int f, int c)
 
 void FichaBlanca::dibujarFicha() {
 	
-	if (estado == 0) {
+	if ((estado == 0)||(estado ==-1)) {
 		//esta funcion se encarga de dibujar las fichas iniciales y de asignar su posición central a un vector fichas
 		//damos por sentado que ya estamos situados en la esquina inferior izquierda
 		glColor3ub(0, 255, 0);

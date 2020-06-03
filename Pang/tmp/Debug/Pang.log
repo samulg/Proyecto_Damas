@@ -1,15 +1,16 @@
 ﻿  Reglas.cpp
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(48): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(69): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(84): warning C4101: 'a': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(100): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(269): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(367): warning C4101: 'h': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(383): warning C4101: 'a': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(400): warning C4101: 'h': variable local sin referencia
-  Tablero.cpp
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\tablero.cpp(99): warning C4101: 'y': variable local sin referencia
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\tablero.cpp(99): warning C4101: 'x': variable local sin referencia
-  Generando código...
-c:\users\samue\desktop\movimientodedamaok(no  come)\cementerioperfeypintardama\pang\src\reglas.cpp(169): warning C4715: 'Reglas::movComerAdicional': no todas las rutas de acceso de control devuelven un valor
-  Pang.vcxproj -> C:\Users\samue\Desktop\movimientoDeDamaOk(no  come)\cementerioPerfeYPintarDama\Pang\bin\Pang.exe
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(38): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(61): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(92): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(219): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(318): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(334): warning C4101: 'a': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(351): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(396): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(487): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(502): warning C4101: 'a': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(518): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(651): warning C4101: 'h': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(667): warning C4101: 'a': variable local sin referencia
+c:\users\samue\desktop\31-03-2020_1v1funcionandocontodo\pang\src\reglas.cpp(684): warning C4101: 'h': variable local sin referencia
+  Pang.vcxproj -> C:\Users\samue\Desktop\31-03-2020_1v1FuncionandoConTodo\Pang\bin\Pang.exe
