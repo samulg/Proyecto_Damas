@@ -37,6 +37,9 @@ public:
 	void delListaFichas(std::vector <Ficha*>, std::vector <Ficha*>);
 	bool posibleComerFicha();//devuelve '1' si es posible para blancas comer alguna ficha
 	void hacerReina();
+	bool moverReina();
+	bool posibleComerConReina();
+	bool fichaComidaConReina();
 
 	~Reglas();
 };

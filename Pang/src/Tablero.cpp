@@ -144,7 +144,7 @@ void Tablero::moverMano(unsigned char tecla) {
 	if (tecla == ' ' && hand.seleccionada == true) {
 		regla.setListaFichas(listaFichasB, listaFichasN);//le pasamos a "Reglas.h" las posiciones de las fichas blancas y negras y
 
-		
+
 		//actualizamos dichas posiciones cada vez que se pulsa el espacio
 
 		if (turno == 1) {
@@ -164,40 +164,44 @@ void Tablero::moverMano(unsigned char tecla) {
 				posSiguiente.x = (-hand.cm);
 				posSiguiente.y = (-hand.fm);
 				regla.setPosSig(posSiguiente);
-				if (regla.posibleComerFicha()) {//posibleComerFicha da positivo cuando hay una ficha negra adyacente (no comprueba que una casilla más allá este libre)
- 					int h = 1;
-					if (regla.fichaComida()) {
-						
+
+				if (regla.posibleComerFicha()|| (regla.posibleComerConReina())) {//posibleComerFicha da positivo cuando hay una ficha negra adyacente (no comprueba que una casilla más allá este libre)
+																													//Incluyo tambien la posible comida de las reinas hacia atras
+					int h = 1;
+					if (regla.fichaComida()||(regla.fichaComidaConReina())) {
+
 						//era posible comer y ha comido
 						listaFichasB[aux]->posicion.x = (-hand.cm);//estas dos instrucciones
 						listaFichasB[aux]->posicion.y = (-hand.fm);//son las que redibujan la ficha (actualizando su posicion
 						hand.seleccionada = false;
 						regla.delListaFichas(listaFichasB, listaFichasN);//Nos devuelve los estados de las fichas
-						regla.hacerReina();	
+						regla.hacerReina();
 						dibujarCementerio(); //Actualizamos la posicion de las fichas para que no obligue a comer a otra ficha cuando ya se ha comido y se ha mandado al cementerio
 										//los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
 						//t1.contarMuertas();//cuando ya hemos actualizado el estado de la última comida, contamos muertas
 
 						///////////////////////////////////////////////////////////////////
 						regla.setListaFichas(listaFichasB, listaFichasN);
-						
+
 						int m = 0;
 						int n = 1;
 						n = m;
-						if (regla.posibleComerFicha() == false) {
+						if (regla.posibleComerFicha() == false && (regla.posibleComerConReina()==false)) {
 							controlSeleccion = regla.cambiarTurno();
 							hand.seleccionada = false;
 						}
 						else {
 							controlSeleccion = 1;
-						}						
+						}
 					}
+					
 					else {
 						controlSeleccion = 1;
 					}
 				}
-				else {
-					if (regla.movDiagUnit()) {
+				//si no es posible comer ficha implemento los movimientos normales, tanto para las fichas normales
+				//como para la reina (esta adicionalmente tiene que comprobar que la ficha en cuestion sea reina)
+				else if  (regla.movDiagUnit()||(regla.moverReina()&&listaFichasB[aux]->estado ==1)) {
 						listaFichasB[aux]->posicion.x = (-hand.cm);
 						listaFichasB[aux]->posicion.y = (-hand.fm);
 						hand.seleccionada = false;
@@ -206,14 +210,14 @@ void Tablero::moverMano(unsigned char tecla) {
 					}
 					else
 						controlSeleccion = 1;
-				}
+			
 
 			}
 
 		}
 		else {
 			//aquí entra con el segundo espacio
-		
+
 			listaFichasN[aux]->posicion.x = (-hand.cm);
 			listaFichasN[aux]->posicion.y = (-hand.fm);
 
