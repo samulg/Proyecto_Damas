@@ -2,6 +2,10 @@
 
 Tablero::Tablero()
 {
+	bot.mode = 0;
+
+	cont1 = 0;
+	cont2 = 0;
 	//reservamos memoria para la matriz de punteros del trablero
 	controlSeleccion = 0;
 	n = 8, m = 8;
@@ -17,7 +21,7 @@ Tablero::Tablero()
 	for (i = 0; i < 3; i++) {
 		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
-				listaFichasB.push_back(new FichaBlanca(i,j));
+				listaFichasB.push_back(new FichaBlanca(i, j));
 				p++;
 			}
 		}
@@ -27,7 +31,7 @@ Tablero::Tablero()
 	for (i = 5; i < 8; i++) {
 		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
-				listaFichasN.push_back(new FichaNegra(i, j));	
+				listaFichasN.push_back(new FichaNegra(i, j));
 			}
 		}
 	}
@@ -36,17 +40,16 @@ Tablero::Tablero()
 void Tablero::dibujarTablero() {
 	//si declaro un segundo objeto de tablero (llamado desde OnDrawn) el constructor se vuelve a llamar y se dibujan las fichas iniciales otra vez
 	//Tablero tabler1;
-	gluLookAt(5, 10, 50,  // posicion del ojo
-		5.0, 5.0, 0.0,      // hacia que punto mira  (0,0,0) 
-		0.0, 0.0, 1.0);      // definimos hacia arriba (eje Z) 
+	graf.Turn = regla.getTurno();//Le mandamos el turno a Graficos para que redibuje el tablero.
+	graf.DibTab();
+
 
 	for (i = 0; i < 8; i++) {	//cada i es una fila del tablero
 		for (j = 0; j < 8; j++) { //cada j es una columna del tablero
-			c[i][j].dibujarCasilla(i,j);
+			c[i][j].dibujarCasilla(i, j);
 		}
 	}
-	hand.dibujarMano();
-	hand.dibujarSeleccion();	
+	hand.dibujarSeleccion();
 }
 void Tablero::dibujarFichasIniciales() {
 	//blancas
@@ -62,10 +65,10 @@ void Tablero::dibujarFichasIniciales() {
 	for (i = 0; i < 3; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
 		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
-				
-					listaFichasB[nb]->dibujarFicha();
-					nb++;
-				
+
+				listaFichasB[nb]->dibujarFicha();
+				nb++;
+
 			}
 		}
 	}
@@ -74,15 +77,18 @@ void Tablero::dibujarFichasIniciales() {
 	for (i = 5; i < 8; i++) {  //colocamos las fichas iniciales en aquellos que i+j sea par, de las 4 primeras filas
 		for (j = 0; j < 8; j++) {
 			if ((i + j) % 2 == 0) {
-				
-					listaFichasN[nn]->dibujarFicha();
-					nn++;
-				
+
+				listaFichasN[nn]->dibujarFicha();
+				nn++;
+
 			}
 		}
 	}
 	regla.delListaFichas(listaFichasB, listaFichasN);
-
+	if (graf.Turn == true)
+		hand.dibujarManoBlanca();
+	else if (bot.mode == 0)  ///////////////////////////////////bottttt
+		hand.dibujarManoNegra();
 }
 void Tablero::moverMano(unsigned char tecla) {
 	//Tablero t1;
@@ -97,20 +103,98 @@ void Tablero::moverMano(unsigned char tecla) {
 
 	turno = 1;
 	float x, y;
-	if (tecla == 'w' && hand.fm < 7) {
-		(hand.fm)++;
+
+	//Adaptamos el control al punto de vista de cada jugador.
+	//Para Blancas
+	turno = regla.getTurno();
+	if (turno == 1) {
+		if (tecla == 'w' && hand.fm < 7) {
+			(hand.fm)++;
+		}
+
+		if (tecla == 'a' && hand.cm > 0) {
+			(hand.cm)--;
+		}
+
+		if (tecla == 'd' && hand.cm < 7) {
+			(hand.cm)++;
+		}
+
+		if (tecla == 's' && hand.fm > 0) {
+			(hand.fm)--;
+		}
 	}
 
-	if (tecla == 'a' && hand.cm > 0) {
-		(hand.cm)--;
+	//Para Negras. Comprobar la gestión de las negras en función del modo.
+	if ((turno == 0) && (bot.mode = 0)) {
+		if ((tecla == 'w') && (hand.fm > 0)) {
+			(hand.fm)--;
+		}
+
+		if ((tecla == 'a') && (hand.cm < 7)) {
+			(hand.cm)++;
+		}
+
+		if ((tecla == 'd') && (hand.cm > 0)) {
+			(hand.cm)--;
+		}
+
+		if ((tecla == 's') && (hand.fm < 7)) {
+			(hand.fm)++;
+		}
 	}
 
-	if (tecla == 'd' && hand.cm < 7) {
-		(hand.cm)++;
+	//Punto de vista aéreo.
+	if (tecla == 'q') {
+		if (graf.vis == 2)
+			graf.vis = 0;
+		else
+			graf.vis = 2;
 	}
 
-	if (tecla == 's' && hand.fm > 0) {
-		(hand.fm)--;
+
+	//Accedemos al 1vs1.
+	if ((tecla == '1') && (graf.Escena == 0))
+	{
+		graf.Escena = 5;
+	}
+
+	//Accedemos al 1vsBot. Deshabilitado por ahora
+	if ((tecla == '2') && (graf.Escena == 0))
+	{
+		bot.mode = 1;
+		graf.Escena = 5;
+	
+	}
+
+	//Accedemos a las instrucciones.
+	if ((tecla == '3') && (graf.Escena != 1))
+	{
+		if (graf.Escena == 2)
+			graf.Escena = 0;
+		else if (graf.Escena == 0)
+			graf.Escena = 2;
+		else if (graf.Escena == 4)
+			graf.Escena = 3;
+		else if (graf.Escena == 3)
+			graf.Escena = 4;
+
+	}
+
+	//Gestión de pausa.
+
+	if ((tecla == 'p') && ((graf.Escena == 3) || (graf.Escena == 1)))
+	{
+		if (graf.Escena == 3)
+			graf.Escena = 1;
+		else
+			graf.Escena = 3;
+	}
+
+	//Salimos del programa
+	if ((tecla == '4') && ((graf.Escena == 0) || (graf.Escena == 3)))
+	{
+		exit(-1);
 	}
 
 	if (tecla == ' ') {
@@ -128,7 +212,7 @@ void Tablero::moverMano(unsigned char tecla) {
 			}
 		}
 
-		if (turno == 0) {
+		if ((turno == 0)&&(bot.mode == 0)) {
 			for (i = 0; i < 12; i++) {
 				//codigo para iluminar la casilla seleccionada (comprobamos que esté ocupada por una casilla negra)
 				if (listaFichasN[i]->posicion.x == (-hand.cm) && listaFichasN[i]->posicion.y == (-hand.fm)) {
@@ -178,15 +262,15 @@ void Tablero::moverMano(unsigned char tecla) {
 						regla.hacerReina();
 						dibujarCementerio(); //Actualizamos la posicion de las fichas para que no obligue a comer a otra ficha cuando ya se ha comido y se ha mandado al cementerio
 										//los usamos para cuando una ficha blanca come a una negra saber que ficha negra es la que se ha comido y mandarla al cementerio
-						//t1.contarMuertas();//cuando ya hemos actualizado el estado de la última comida, contamos muertas
-
+						graf.ContBlancas++;//cuando ya hemos actualizado el estado de la última comida, contamos muertas
+						printf("%d", graf.ContBlancas);
 						///////////////////////////////////////////////////////////////////
 						regla.setListaFichas(listaFichasB, listaFichasN);
 
 						int m = 0;
 						int n = 1;
 						n = m;
-						if ((regla.posibleComerFicha() == false) && (regla.posibleComerConReina() == false)) {
+						if (regla.posibleComerFicha() == false && (regla.posibleComerConReina() == false)) {
 							controlSeleccion = regla.cambiarTurno();
 							hand.seleccionada = false;
 						}
@@ -201,7 +285,7 @@ void Tablero::moverMano(unsigned char tecla) {
 				}
 				//si no es posible comer ficha implemento los movimientos normales, tanto para las fichas normales
 				//como para la reina (esta adicionalmente tiene que comprobar que la ficha en cuestion sea reina)
-				else if (regla.movDiagUnit() || (regla.moverReina() && (listaFichasB[aux]->estado == 1))) {
+				else if (regla.movDiagUnit() || (regla.moverReina() && listaFichasB[aux]->estado == 1)) {
 					listaFichasB[aux]->posicion.x = (-hand.cm);
 					listaFichasB[aux]->posicion.y = (-hand.fm);
 					hand.seleccionada = false;
@@ -216,9 +300,9 @@ void Tablero::moverMano(unsigned char tecla) {
 
 		}
 		////////////////////////////////////////////////////
-		//negras
-		else {
-						
+		//negras OJO CON  ESTE IF QUE HAY QUE REACONDICIONARLO PARA EL MODO DE JUEGO.
+		else if (bot.mode == 0) {
+
 			posActual.x = -(hand.fichaSeleccionada.x);
 			posActual.y = -(hand.fichaSeleccionada.y);
 			regla.setPosAct(posActual);//fichaSeleccionada guarda la posicion inicial de la ficha (de donde viene)
@@ -233,7 +317,7 @@ void Tablero::moverMano(unsigned char tecla) {
 				posSiguiente.x = (-hand.cm);
 				posSiguiente.y = (-hand.fm);
 				regla.setPosSig(posSiguiente);
-				if ((regla.posibleComerFichaN())|| (regla.posibleComerConReinaN())) {//da falsos positivos cuando no es posible comer
+				if ((regla.posibleComerFichaN()) || (regla.posibleComerConReinaN())) {//da falsos positivos cuando no es posible comer
 					int h = 1;
 					if ((regla.fichaComidaN()) || (regla.fichaComidaConReinaN())) {
 
@@ -243,7 +327,9 @@ void Tablero::moverMano(unsigned char tecla) {
 						hand.seleccionada = false;
 						regla.delListaFichas(listaFichasB, listaFichasN);
 						regla.hacerReinaN();
-						dibujarCementerio(); 
+						dibujarCementerio();
+						graf.ContNegras++;
+						printf("%d", graf.ContNegras);
 						///////////////////////////////////////////////////////////////////
 						regla.setListaFichas(listaFichasB, listaFichasN);
 
@@ -263,7 +349,7 @@ void Tablero::moverMano(unsigned char tecla) {
 						controlSeleccion = 1;
 					}
 				}
-				
+
 				else if (regla.movDiagUnitN() || (regla.moverReina() && listaFichasN[aux]->estado == 1)) {
 					listaFichasN[aux]->posicion.x = (-hand.cm);
 					listaFichasN[aux]->posicion.y = (-hand.fm);
@@ -277,25 +363,16 @@ void Tablero::moverMano(unsigned char tecla) {
 
 			}
 		}
-
+		else {
+		bot.calcularPosicionesPosibles();
 		}
-		
 
-}
-void Tablero::contarMuertas(){
-	//FichaNegra::contador = 0;
-	regla.delListaFichas(listaFichasB, listaFichasN);
-	int cont = 0;//contador auxiliar
-	for (int i = 0; i < 12; i++) {
 
-		if (listaFichasN[i]->estado == -1) {
-			FichaNegra::contador++;
-			cont++;
-
-		}
-		int h = 1;
 	}
+
+
 }
+
 void Tablero::dibujarCementerio() {
 	regla.delListaFichas(listaFichasB, listaFichasN);//cada funcion de tablero debe actualizar las fichas con Reglas
 												//de manera independiente
@@ -307,10 +384,10 @@ void Tablero::dibujarCementerio() {
 	int auxB = 0;
 	for (int i = 0; i < 12; i++) {
 
-		if (listaFichasN[i]->estado == -1) {		
+		if (listaFichasN[i]->estado == -1) {
 			contN++;
-			listaFichasN[i]->posicion.x = 2+auxN;
-			listaFichasN[i]->posicion.y = -(contN+0.2);
+			listaFichasN[i]->posicion.x = 2 + auxN;
+			listaFichasN[i]->posicion.y = -(contN + 0.2);
 			contSaltoN++;
 		}
 		if (contSaltoN == 3)
@@ -319,13 +396,13 @@ void Tablero::dibujarCementerio() {
 			contN = -1;
 			contSaltoN = 0;
 		}
-		
+
 	}
 	for (int i = 0; i < 12; i++) {
 
 		if (listaFichasB[i]->estado == -1) {
 			contB++;
-			listaFichasB[i]->posicion.x = -9+auxB;
+			listaFichasB[i]->posicion.x = -9 + auxB;
 			listaFichasB[i]->posicion.y = contB + 0.2;
 			contSaltoB++;
 		}
@@ -337,6 +414,41 @@ void Tablero::dibujarCementerio() {
 		}
 
 	}
+}
+
+void Tablero::Animacion() {
+
+	//Contador de transición de la primera escena.
+	if ((graf.Escena == 5)) {
+		cont1 += 0.1;
+		if (cont1 > 6)
+			graf.Escena = 1;
+	}
+
+	if ((graf.Escena == 6)) {
+		cont2 += 0.1;
+		if (cont2 > 12)
+			exit(-1);
+	}
+	//Omitidas por ahora.
+	/*bool T;
+	T = regla.getTurno();
+	//Punto de vista blancas.
+
+	if ((T == 1) && (graf.vis != 2) && (graf.ojo_y < 10.5))
+	{
+		graf.DibTab();
+		graf.ojo_y += 0.1;
+	}
+	// Punto de vista negras.
+	else if ((T == 0) && (graf.vis != 2) && (graf.ojo_y > -20.5))
+	{
+		graf.DibTab();
+		graf.ojo_y -= 0.1;
+	}
+
+	//Debugueo manual. Eliminar cuando todo funcione correctamente.
+	printf("%f", graf.ojo_y);*/
 }
 
 Tablero::~Tablero()

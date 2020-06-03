@@ -83,20 +83,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ReglasBot.cpp" />
     <ClCompile Include="src\Casilla.cpp" />
     <ClCompile Include="src\Ficha.cpp" />
     <ClCompile Include="src\FichaBlanca.cpp" />
     <ClCompile Include="src\FichaNegra.cpp" />
+    <ClCompile Include="src\Graficos.cpp" />
     <ClCompile Include="src\Juego.cpp" />
     <ClCompile Include="src\Reglas.cpp" />
     <ClCompile Include="src\Tablero.cpp" />
     <ClCompile Include="src\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ReglasBot.h" />
     <ClInclude Include="src\Casilla.h" />
     <ClInclude Include="src\Ficha.h" />
     <ClInclude Include="src\FichaBlanca.h" />
     <ClInclude Include="src\FichaNegra.h" />
+    <ClInclude Include="src\Graficos.h" />
     <ClInclude Include="src\Reglas.h" />
     <ClInclude Include="src\Tablero.h" />
     <ClInclude Include="src\Vector2D.h" />
