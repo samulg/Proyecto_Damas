@@ -151,7 +151,7 @@ bool Reglas::posibleComerFicha() {
 				for (int v = 0; v < 12; v++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 											  //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if
 					//si hay una ficha en la segunda casilla diagonal
-					if ((((listaFichasBl[i]->posicion.x + 2) == listaFichasNe[v]->posicion.x) && ((listaFichasBl[i]->posicion.y - 2) == listaFichasNe[v]->posicion.y))||(((listaFichasBl[i]->posicion.x + 2) == listaFichasBl[v]->posicion.x) && ((listaFichasBl[i]->posicion.y - 2) == listaFichasBl[v]->posicion.y))) {
+					if ((((listaFichasBl[i]->posicion.x + 2) == listaFichasNe[v]->posicion.x) && ((listaFichasBl[i]->posicion.y - 2) == listaFichasNe[v]->posicion.y)) || (((listaFichasBl[i]->posicion.x + 2) == listaFichasBl[v]->posicion.x) && ((listaFichasBl[i]->posicion.y - 2) == listaFichasBl[v]->posicion.y))) {
 						diagIzq[i] = false; //funciona correctamente, similar a la anterior				
 					}
 				}
@@ -179,7 +179,7 @@ bool Reglas::posibleComerFicha() {
 				for (int z = 0; z < 12; z++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 					 //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if	
 					//si hay una ficha en la segunda casilla diagonal
-					if ((((listaFichasBl[i]->posicion.x - 2) == listaFichasNe[z]->posicion.x) && ((listaFichasBl[i]->posicion.y - 2) == listaFichasNe[z]->posicion.y)) || (((listaFichasBl[i]->posicion.x - 1) == listaFichasBl[j]->posicion.x) && ((listaFichasBl[i]->posicion.y - 1) == listaFichasBl[j]->posicion.y))) {
+					if ((((listaFichasBl[i]->posicion.x - 2) == listaFichasNe[z]->posicion.x) && ((listaFichasBl[i]->posicion.y - 2) == listaFichasNe[z]->posicion.y)) || (((listaFichasBl[i]->posicion.x - 2) == listaFichasBl[z]->posicion.x) && ((listaFichasBl[i]->posicion.y - 2) == listaFichasBl[z]->posicion.y))) {
 						diagDer[i] = false; //funciona correctamente, similar a la anterior	
 					}
 				}
@@ -193,7 +193,7 @@ bool Reglas::posibleComerFicha() {
 		else
 			auxdig = false;
 	}
-	return auxdig;	
+	return auxdig;
 }
 void Reglas::hacerReina() {
 	//las condiciones son que la ficha haya llegado a la posición -9, y nos aseguramos que solo contabilice la ultima ficha que se ha movido
@@ -216,7 +216,7 @@ bool Reglas::moverReina() {
 
 
 	//primero comprobamos que la casilla a la que hemos movido sea una casilla diagonal adyacente(+-,--,-+,++)
-	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1)))) && (((posicionSiguiente.x > -7) && (posicionSiguiente.y < 0)) && ((posicionSiguiente.x < 0) && (posicionSiguiente.y > -7)))) {
+	if ((((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y - 1))) || ((posicionSiguiente.x == (posicionActual.x - 1)) && (posicionSiguiente.y == (posicionActual.y + 1))) || ((posicionSiguiente.x == (posicionActual.x + 1)) && (posicionSiguiente.y == (posicionActual.y + 1)))) && (((posicionSiguiente.x >= -7) && (posicionSiguiente.y <= 0)) && ((posicionSiguiente.x <= 0) && (posicionSiguiente.y >= -7)))) {
 		//ahora comprobamos que no haya ninguna ficha ahi 
 		for (i = 0; i < 12; i++) {
 			int h;
@@ -240,7 +240,7 @@ bool Reglas::posibleComerConReina() {
 	bool auxdig = true;
 	//comprobamos para cada blanca todas las negras
 	for (int i = 0; i < 12; i++) {
-		diagIzq[i] = false;
+		diagIzqTras[i] = false;
 
 		if (listaFichasBl[i]->estado == 1) {
 			//Estos if comprueba si hay fichas a dos casillas de la posicion donde has quedado tras comer una ficha
@@ -249,21 +249,21 @@ bool Reglas::posibleComerConReina() {
 				//izquierda
 				//primero comprobamos que haya una ficha en la casilla adyacente
 				if (((listaFichasBl[i]->posicion.x + 1) == listaFichasNe[j]->posicion.x) && ((listaFichasBl[i]->posicion.y + 1) == listaFichasNe[j]->posicion.y)) {
-					diagIzq[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
+					diagIzqTras[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
 					int aux = 0;
 					aux = i;
 					int j;
 					j = i;
-					if (((listaFichasBl[i]->posicion.x + 2) > 0) || ((listaFichasBl[i]->posicion.y + 2) < -7)) {
-						diagIzq[i] = false;
+					if (((listaFichasBl[i]->posicion.x + 2) > 0) || ((listaFichasBl[i]->posicion.y + 2) >0)) {
+						diagIzqTras[i] = false;
 						j = i;
 					}
 
 					for (int v = 0; v < 12; v++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 												  //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if
 						//si hay una ficha en la segunda casilla diagonal
-						if ((((listaFichasBl[i]->posicion.x + 2) == listaFichasNe[v]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasNe[v]->posicion.y)) || (((listaFichasBl[i]->posicion.x + 2) == listaFichasNe[v]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasNe[v]->posicion.y))) {
-							diagIzq[i] = false; //funciona correctamente, similar a la anterior				
+						if ((((listaFichasBl[i]->posicion.x + 2) == listaFichasNe[v]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasNe[v]->posicion.y)) || (((listaFichasBl[i]->posicion.x + 2) == listaFichasBl[v]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasBl[v]->posicion.y))) {
+							diagIzqTras[i] = false; //funciona correctamente, similar a la anterior				
 						}
 					}
 				}
@@ -274,26 +274,26 @@ bool Reglas::posibleComerConReina() {
 	for (int i = 0; i < 12; i++) {
 		//Estos if comprueba si hay fichas a dos casillas de la posicion donde has quedado tras comer una ficha
 		//separamos entre diagonal derecha e izquierda
-		diagDer[i] = false;
+		diagDerTras[i] = false;
 		if (listaFichasBl[i]->estado == 1) {
 			for (int j = 0; j < 12; j++) {
 				//derecha
 				if (((listaFichasBl[i]->posicion.x - 1) == listaFichasNe[j]->posicion.x) && ((listaFichasBl[i]->posicion.y + 1) == listaFichasNe[j]->posicion.y)) {
-					diagDer[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
+					diagDerTras[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
 					int aux1 = 0;
 					aux1 = i;
 					int j1;
 					j1 = i;
-					if (((listaFichasBl[i]->posicion.x - 2) < -7) || ((listaFichasBl[i]->posicion.y + 2) < -7)) {
-						diagDer[i] = false;
-						aux1 = i;
+					if (((listaFichasBl[i]->posicion.x - 2) < -7) || ((listaFichasBl[i]->posicion.y + 2) >0)) {
+						diagDerTras[i] = false;
+						j1 = i;
 					}
 
 					for (int z = 0; z < 12; z++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 						 //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if	
 						//si hay una ficha en la segunda casilla diagonal
-						if ((((listaFichasBl[i]->posicion.x - 2) == listaFichasNe[z]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasNe[z]->posicion.y)) || (((listaFichasBl[i]->posicion.x - 2) == listaFichasNe[z]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasNe[z]->posicion.y))) {
-							diagDer[i] = false; //funciona correctamente, similar a la anterior	
+						if ((((listaFichasBl[i]->posicion.x - 2) == listaFichasNe[z]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasNe[z]->posicion.y)) || (((listaFichasBl[i]->posicion.x - 2) == listaFichasBl[z]->posicion.x) && ((listaFichasBl[i]->posicion.y + 2) == listaFichasBl[z]->posicion.y))) {
+							diagDerTras[i] = false; //funciona correctamente, similar a la anterior	
 						}
 					}
 				}
@@ -302,14 +302,13 @@ bool Reglas::posibleComerConReina() {
 	}
 	for (int i = 0; i < 12; i++)
 	{
-		if (diagDer[i] || diagIzq[i])
+		if (diagDerTras[i] || diagIzqTras[i])
 			return true;
 		else
 			auxdig = false;
 	}
 	return auxdig;
 }
-
 bool Reglas::fichaComidaConReina() {
 	int i;
 	int v;
@@ -589,10 +588,6 @@ void Reglas::hacerReinaBot() {
 }
 
 bool Reglas::posibleComerConReinaN() {
-	//esta funcion devuelve true si es posible comer otra vez
-	//en un principio (cuando la función toma la decisión) actual y siguiente no están actualizados
-	//cuando pulse el primer espacio actualizo posActual
-	//en el segundo espacio actualizo posSiguiente (hasta entonces posSiguiente estaba almacenando la posicion actual de este movimiento)
 	bool auxdig = true;
 	//comprobamos para cada blanca todas las negras
 	for (int i = 0; i < 12; i++) {
@@ -604,13 +599,13 @@ bool Reglas::posibleComerConReinaN() {
 			for (int j = 0; j < 12; j++) {
 				//izquierda
 				//primero comprobamos que haya una ficha en la casilla adyacente
-				if (((listaFichasNe[i]->posicion.x + 1) == listaFichasBl[j]->posicion.x) && ((listaFichasNe[i]->posicion.y - 1) == listaFichasBl[j]->posicion.y)) {
+				if (((listaFichasNe[i]->posicion.x - 1) == listaFichasBl[j]->posicion.x) && ((listaFichasNe[i]->posicion.y - 1) == listaFichasBl[j]->posicion.y)) {
 					diagIzq[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
 					int aux = 0;
 					aux = i;
 					int j;
 					j = i;
-					if (((listaFichasNe[i]->posicion.x + 2) <-7) || ((listaFichasNe[i]->posicion.y - 2) > 0)) {
+					if (((listaFichasNe[i]->posicion.x - 2) < -7) || ((listaFichasNe[i]->posicion.y - 2) < -7)) {
 						diagIzq[i] = false;
 						j = i;
 					}
@@ -618,7 +613,7 @@ bool Reglas::posibleComerConReinaN() {
 					for (int v = 0; v < 12; v++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 												  //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if
 						//si hay una ficha en la segunda casilla diagonal
-						if ((((listaFichasNe[i]->posicion.x + 2) == listaFichasBl[v]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasBl[v]->posicion.y)) || (((listaFichasNe[i]->posicion.x + 2) == listaFichasBl[v]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasBl[v]->posicion.y))) {
+						if ((((listaFichasNe[i]->posicion.x - 2) == listaFichasNe[v]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasNe[v]->posicion.y)) || (((listaFichasNe[i]->posicion.x - 2) == listaFichasBl[v]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasBl[v]->posicion.y))) {
 							diagIzq[i] = false; //funciona correctamente, similar a la anterior				
 						}
 					}
@@ -634,13 +629,13 @@ bool Reglas::posibleComerConReinaN() {
 		if (listaFichasNe[i]->estado == 1) {
 			for (int j = 0; j < 12; j++) {
 				//derecha
-				if (((listaFichasNe[i]->posicion.x - 1) == listaFichasBl[j]->posicion.x) && ((listaFichasNe[i]->posicion.y + 1) == listaFichasBl[j]->posicion.y)) {
+				if (((listaFichasNe[i]->posicion.x + 1) == listaFichasBl[j]->posicion.x) && ((listaFichasNe[i]->posicion.y - 1) == listaFichasBl[j]->posicion.y)) {
 					diagDer[i] = true;  //devuelve true si, después de un movimiento legal de blancas, hay una ficha en la NUEVA casilla adyacente 
 					int aux1 = 0;
 					aux1 = i;
 					int j1;
 					j1 = i;
-					if (((listaFichasNe[i]->posicion.x - 2) < -7) || ((listaFichasNe[i]->posicion.y - 2) < -7)) {
+					if (((listaFichasNe[i]->posicion.x + 2) >0) || ((listaFichasNe[i]->posicion.y - 2) <-7)) {
 						diagDer[i] = false;
 						aux1 = i;
 					}
@@ -648,7 +643,7 @@ bool Reglas::posibleComerConReinaN() {
 					for (int z = 0; z < 12; z++) {//necesitamos recorrer las posiciones de la negras desde cero!!! Sino el bucle empieza desde donde encontro la ficha negra del anterior if
 						 //Sin embargo queremos que compare con la ficha blanca que encontro que puede comer, por lo que dejamos la que encontro en el anterior if	
 						//si hay una ficha en la segunda casilla diagonal
-						if ((((listaFichasNe[i]->posicion.x - 2) == listaFichasBl[z]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasBl[z]->posicion.y)) || (((listaFichasNe[i]->posicion.x - 2) == listaFichasBl[z]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasBl[z]->posicion.y))) {
+						if ((((listaFichasNe[i]->posicion.x + 2) == listaFichasNe[z]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasNe[z]->posicion.y)) || (((listaFichasNe[i]->posicion.x + 2) == listaFichasBl[z]->posicion.x) && ((listaFichasNe[i]->posicion.y - 2) == listaFichasBl[z]->posicion.y))) {
 							diagDer[i] = false; //funciona correctamente, similar a la anterior	
 						}
 					}
@@ -672,11 +667,10 @@ bool Reglas::fichaComidaConReinaN() {
 	bool diagIzq = false;
 	bool diagDer = false;
 	//primero comprobamos que adonde quiere mover es la casilla diagonal doble
-	//el primer if funciona (solo devuelve true cuando has movido una doble diagonal unitaria a la izquierda
-	if ((posicionSiguiente.x == (posicionActual.x + 2)) && (posicionSiguiente.y == (posicionActual.y - 2))) {
+	if ((posicionSiguiente.x == (posicionActual.x - 2)) && (posicionSiguiente.y == (posicionActual.y - 2))) {
 		for (i = 0; i < 12; i++) {
 			int h;
-			if (listaFichasNe[i]->estado == 1) {
+			if (listaFichasNe[i]->estado == 1) {//solo evaluamos las que sean reinas
 				//Comprobamos que no haya ninguna ficha ahi
 				if ((posicionSiguiente = listaFichasBl[i]->posicion) || (posicionSiguiente = listaFichasNe[i]->posicion)) {
 					diagIzq = false;
@@ -687,17 +681,18 @@ bool Reglas::fichaComidaConReinaN() {
 					for (v = 0; v < 12; v++)
 					{
 						//Aqui comprobamos que hay una ficha del otro color en medio de la diagonal 
-						if (((posicionActual.x + 1) == listaFichasBl[v]->posicion.x) && ((posicionActual.y - 1) == listaFichasBl[v]->posicion.y)) {
+						if (((posicionActual.x - 1) == listaFichasBl[v]->posicion.x) && ((posicionActual.y - 1) == listaFichasBl[v]->posicion.y)) {
 							diagIzq = true;
 							listaFichasBl[v]->estado = -1;
 							break;
-						int a;
+							int a;
 						}
 						else
 							diagIzq = false;
 					}
 				}
 			}
+
 		}
 	}
 	else
@@ -705,7 +700,7 @@ bool Reglas::fichaComidaConReinaN() {
 
 
 	//diagonal derecha 
-	if (((posicionSiguiente.x == (posicionActual.x - 2)) && (posicionSiguiente.y == (posicionActual.y - 2)))) {
+	if (((posicionSiguiente.x == (posicionActual.x + 2)) && (posicionSiguiente.y == (posicionActual.y - 2)))) {
 		for (i = 0; i < 12; i++) {
 			int h;
 			if (listaFichasNe[i]->estado == 1) {
@@ -721,7 +716,7 @@ bool Reglas::fichaComidaConReinaN() {
 					{
 
 						//Aqui comprobamos que hay una ficha del otro color en medio de la diagonal 
-						if (((posicionActual.x - 1) == listaFichasBl[k]->posicion.x) && ((posicionActual.y - 1) == listaFichasBl[k]->posicion.y)) {
+						if (((posicionActual.x + 1) == listaFichasBl[k]->posicion.x) && ((posicionActual.y - 1) == listaFichasBl[k]->posicion.y)) {
 							diagDer = true;
 							listaFichasBl[k]->estado = -1; //si hemos comido cambiamos el estado de la ficha comida(se le pasa
 														//a tablero en delListaFichas
@@ -740,6 +735,7 @@ bool Reglas::fichaComidaConReinaN() {
 
 	return (diagDer || diagIzq);
 }
+
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //instrucciones de control

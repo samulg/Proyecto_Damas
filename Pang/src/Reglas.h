@@ -26,6 +26,10 @@ public:
 	Reglas();
 	bool diagDer[20];// si diagDer[3]==true, significa que la ficha 3 puede comer a la derecha
 	bool diagIzq[20];
+
+	bool diagIzqTras[20];
+	bool diagDerTras[20];
+
 	//BLANCAS
 	bool movDiagUnit();//devuelve '1' si el movimiento que se quiere realizar es una diagonal unitaria, y además no pisa a otra ficha
 	bool fichaComida();//devuelve '1' si el movimiento de comer se ha realizado correctamente

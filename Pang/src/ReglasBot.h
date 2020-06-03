@@ -12,8 +12,8 @@ public:
 	bool mode;
 	int idFicha;
 	int FinBot = 0;
-	bool diagIzqTras[20];
-	bool diagDerTras[20];
+	//bool diagIzqTras[20];
+	//bool diagDerTras[20];
 	
 	std::vector <Jugada> posibPosSiguientes;
 	std::vector <Jugada> posMismaPrioridad;

@@ -35,8 +35,7 @@ public:
 	int i, j, n, m;
 	bool turno;// 0 negras, 1 blancas
 	int controlSeleccion;//variable de control para los if del onkeyboardDown (evita que se actualicen instantáneamente)
-	float cont1;
-	float cont2;
+	float cont1, cont2, cont3;
 
 	//Metodos
 	void dibujarTablero();

@@ -6,6 +6,7 @@ Graficos::Graficos(){
 	Escena = 0;
 	ContBlancas = 0;
 	ContNegras = 0;
+	Turn = 1;
 }
 
 void Graficos::DibTab() {
@@ -41,25 +42,53 @@ void Graficos::DibTab() {
 	//Escena VVV. OK
 	else if ((Escena == 6))
 	{
-		gluLookAt(23.5, -15, 10, 23.5, -15, 0.0, 0.0, -1.0, 1.0);
+		gluLookAt(24, -15, 10, 24, -15, 0.0, 0.0, -1.0, 1.0);
+	}
+	//Escena Tablas.
+	else if ((Escena == 7))
+	{
+		gluLookAt(24, 15, 8, 24, 15, 0.0, 0.0, -1.0, 1.0);
 	}
 	//Punto de vista blancas. OK
 	else if ((Turn == 1) && (vis != 2) && (Escena == 1))
 	{
-		ojo_y = 10.5;
-		gluLookAt(-3.5, ojo_y, 15, -3.5, -3.5, 0.0, 0.0, -1.0, 1.0);
+		ojo_y = 9.5;
+		gluLookAt(-3.5, ojo_y, 15, -3.5, -2, 0.0, 0.0, -1.0, 1.0);
 	}
 	// Punto de vista negras. OK
 	else if ((Turn == 0) && (vis != 2) && (Escena == 1))
 	{
-		ojo_y = -20.5;
-		gluLookAt(-3.5, ojo_y, 15, -3.5, -3.5, 0.0, 0.0, -1.0, 1.0);
+		ojo_y = -17.5;
+		gluLookAt(-3.5, ojo_y, 15, -3.5, -5, 0.0, 0.0, 1.0, 1.0);
 	}
 	//Punto vista aereo. OK
 	else if ((vis == 2) && (Escena == 1))
 	{
 		gluLookAt(-3.5, -3.5, 25, -3.5, -3.5, 0.0, 0.0, -1.0, 1.0);
 	}
+	//Cargamos la textura de la corona para evitar tiempos de ejecución.
+	glEnable(GL_TEXTURE_2D);
+
+
+
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/Corona.png").id);
+
+
+
+	glBegin(GL_POLYGON);
+	glColor3f(200, 200, 200);
+
+
+
+	glTexCoord2d(0, 0);        glVertex3f(-20, -17, -0.5);// Superior Izquierda
+	glTexCoord2d(1, 0);        glVertex3f(-28, -17, -0.5);// Superior Derecha
+	glTexCoord2d(1, 1);        glVertex3f(-28, -13, -0.5);// Inferior Derecha
+	glTexCoord2d(0, 1);        glVertex3f(-20, -13, -0.5);// Inferior Izquie
+
+
+
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
 
 	//Pintamos el marco del tablero
 	glEnable(GL_TEXTURE_2D);
@@ -87,10 +116,10 @@ void Graficos::DibTab() {
 	glColor3f(200, 200, 200);
 
 
-	glTexCoord2d(0, 1);		glVertex3f(20, 20, -0.03);// Inferior Izquierda
-	glTexCoord2d(1, 1);		glVertex3f(-29, 20, -0.03);// Inferior Derecha
-	glTexCoord2d(1, 0);		glVertex3f(-29, -29, -0.03);// Superior Derecha
-	glTexCoord2d(0, 0);		glVertex3f(20, -29, -0.03);// Superior Izquierda
+	glTexCoord2d(0, 1);		glVertex3f(30, 20, -0.05);// Inferior Izquierda
+	glTexCoord2d(1, 1);		glVertex3f(-29, 20, -0.05);// Inferior Derecha
+	glTexCoord2d(1, 0);		glVertex3f(-29, -29, -0.05);// Superior Derecha
+	glTexCoord2d(0, 0);		glVertex3f(30, -29, -0.05);// Superior Izquierda
 
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
@@ -180,6 +209,24 @@ void Graficos::DibTab() {
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
+	//Pintamos el mensaje de Tablas.
+	glEnable(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/Tablas.png").id);
+
+	glBegin(GL_POLYGON);
+	glColor3f(200, 200, 200);
+
+
+	glTexCoord2d(0, 0);		glVertex3f(26, 13, 0.03);// Superior Izquierda
+	glTexCoord2d(1, 0);		glVertex3f(22, 13, 0.03);// Superior Derecha
+	glTexCoord2d(1, 1);		glVertex3f(22, 17, 0.03);// Inferior Derecha
+	glTexCoord2d(0, 1);		glVertex3f(26, 17, 0.03);// Inferior Izquierda
+
+
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+
 	//Contador de fichas capturadas por el jugador de blancas.
 	glEnable(GL_TEXTURE_2D);
 
@@ -227,10 +274,10 @@ void Graficos::DibTab() {
 	glBegin(GL_POLYGON);
 	glColor3f(200, 200, 200);
 
-	glTexCoord2d(0, 1);		glVertex3f(4.2, 4.1, 0.01);// Inferior Izquierda
-	glTexCoord2d(1, 1);		glVertex3f(1, 4.1, 0.01);// Inferior Derecha
-	glTexCoord2d(1, 0);		glVertex3f(1, 0.9, 0.01);// Superior Derecha
-	glTexCoord2d(0, 0);		glVertex3f(4.2, 0.9, 0.01);// Superior Izquierda
+	glTexCoord2d(0, 1);		glVertex3f(3.9, 3.8, 0.01);// Inferior Izquierda
+	glTexCoord2d(1, 1);		glVertex3f(1.3, 3.8, 0.01);// Inferior Derecha
+	glTexCoord2d(1, 0);		glVertex3f(1.3, 1.2, 0.01);// Superior Derecha
+	glTexCoord2d(0, 0);		glVertex3f(3.9, 1.2, 0.01);// Superior Izquierda
 
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
@@ -283,10 +330,10 @@ void Graficos::DibTab() {
 	glBegin(GL_POLYGON);
 	glColor3f(200, 200, 200);
 
-	glTexCoord2d(1, 0);		glVertex3f(-8, -7.9, 0.01);// Superior Derecha
-	glTexCoord2d(0, 0);		glVertex3f(-11.2, -7.9, 0.01);// Superior Izquierda
-	glTexCoord2d(0, 1);		glVertex3f(-11.2, -11.1, 0.01);// Inferior Izquierda
-	glTexCoord2d(1, 1);		glVertex3f(-8, -11.1, 0.01);// Inferior Derecha
+	glTexCoord2d(1, 0);		glVertex3f(-8.3, -8.2, 0.01);// Superior Derecha
+	glTexCoord2d(0, 0);		glVertex3f(-10.9, -8.2, 0.01);// Superior Izquierda
+	glTexCoord2d(0, 1);		glVertex3f(-10.9, -10.8, 0.01);// Inferior Izquierda
+	glTexCoord2d(1, 1);		glVertex3f(-8.3, -10.8, 0.01);// Inferior Derecha
 
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
@@ -296,37 +343,7 @@ void Graficos::DibTab() {
 	{
 		Escena = 6;
 	}
-	/*//Jugador Negras.
-	glEnable(GL_TEXTURE_2D);
-
-	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/PensNegr.png").id);
-
-	glBegin(GL_POLYGON);
-	glColor3f(200, 200, 200);
-
-	glTexCoord2d(0, 1);		glVertex3f(-2.2, -7.7, 0);// Inferior Izquierda
-	glTexCoord2d(1, 1);		glVertex3f(-4.8, -7.7, 0);// Inferior Derecha
-	glTexCoord2d(1, 0);		glVertex3f(-4.8, -10.7, 3);// Superior Derecha
-	glTexCoord2d(0, 0);		glVertex3f(-2.2, -10.7, 3);// Superior Izquierda
-
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-
-	//Jugador Blancas.
-	glEnable(GL_TEXTURE_2D);
-
-	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/PensBlanc.png").id);
-
-	glBegin(GL_POLYGON);
-	glColor3f(200, 200, 200);
-
-	glTexCoord2d(0, 0);		glVertex3f(-2.3, 4, 3);
-	glTexCoord2d(1, 0);		glVertex3f(-4.6, 4, 3);
-	glTexCoord2d(1, 1);		glVertex3f(-4.6, 0.8, 0);
-	glTexCoord2d(0, 1);		glVertex3f(-2.3, 0.8, 0);
-
-	glEnd();
-	glDisable(GL_TEXTURE_2D);*/
+	
 
 }
 

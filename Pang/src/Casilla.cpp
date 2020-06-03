@@ -180,7 +180,7 @@ void Casilla::dibujarJugadaBot() {
 	glTranslatef((coord.x), (coord.y), 0);
 
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/MarmolVerde.png").id);
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/MarmolAzul.png").id);
 
 	glBegin(GL_POLYGON);
 	glColor3f(200, 200, 200);

@@ -36,8 +36,36 @@ bool ReglasBot::calcularPosicionesPosibles() {
 				str.posSig.y = posSigu.y;
 				posibPosSiguientes.push_back(str);				
 			}
+			//////////////////////
+/////////////////////////////////////coronacion
+			/////derecha
+			posSigu.x = (listaFichasNe[i]->posicion.x + 1);
+			posSigu.y = (listaFichasNe[i]->posicion.y + 1);
+			if (posSigu.y == 0) {
+				if (this->movDiagUnitN() && (this->posibleComerConReinaBot() == false) && (this->posibleComerFichaN() == false)) {
+					posibPosSiguientes.erase(posibPosSiguientes.begin(), posibPosSiguientes.begin() + posibPosSiguientes.size());
+					str.idFicha = i;
+					str.posSig.x = posSigu.x;
+					str.posSig.y = posSigu.y;
+					posibPosSiguientes.push_back(str);
+					int k = 0;
+				}
+			}
+			/////izquierda
+			posSigu.x = (listaFichasNe[i]->posicion.x - 1);
+			posSigu.y = (listaFichasNe[i]->posicion.y + 1);
+			if (posSigu.y == 0) {
+				if (this->movDiagUnitN() && (this->posibleComerConReinaBot() == false) && (this->posibleComerFichaN() == false)) {
+					posibPosSiguientes.erase(posibPosSiguientes.begin(), posibPosSiguientes.begin() + posibPosSiguientes.size());
+					str.idFicha = i;
+					str.posSig.x = posSigu.x;
+					str.posSig.y = posSigu.y;
+					posibPosSiguientes.push_back(str);
+					int k = 0;
+				}
+			}
 		}
-		
+		int k = 0;
 		if (listaFichasNe[i]->estado == 1) { ///////////////////////////////////////////////////////////////////////Si la ficha es reina
 			this->setPosAct(listaFichasNe[i]->posicion);
 			/////derecha para atras
@@ -106,7 +134,7 @@ bool ReglasBot::calcularPosicionesPosibles() {
 	int i = 0;
 	////////////////////
 	//comer REINA
-	//nunca entra en este if
+	
 	if ((posibleComerConReinaBot())) {//Aqui entra cuando la reina negra puede comer una ficha hacia delante
 		
 				//Si es posible comer ficha primero borramos el vector

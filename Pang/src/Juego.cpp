@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "ETSIDI.h"
 #include "glut.h"
 #include "Tablero.h"
 #include "Casilla.h"
@@ -15,15 +16,15 @@ Casilla cas;
 
 int main(int argc, char* argv[])
 {
+	//Sonido de fondo
+	ETSIDI::playMusica("bin/sonidos/BSO.mp3");
+
 	//Inicializar el gestor de ventanas GLUT
 	//y crear la ventana
 	glutInit(&argc, argv);
 	glutInitWindowSize(1360, 1360);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutCreateWindow("ProyectoDamas");
-
-	//Sonido de fondo
-	//ETSIDI::playMusica("bin/sonidos/duro.mp3", true);
 
 	//habilitar luces y definir perspectiva
 	glEnable(GL_LIGHT0);
@@ -63,10 +64,11 @@ void OnDraw(void)
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	tabler.dibujarTablero();
+	tabler.marcarJugadaBot();
 	tabler.dibujarFichasIniciales();
 	tabler.dibujarCementerio();
 	tabler.jugarBot();
-	tabler.marcarJugadaBot();
+	
 
 	
 	//no borrar esta linea ni poner nada despues
