@@ -157,28 +157,21 @@ void Tablero::moverMano(unsigned char tecla) {
 				posSiguiente.x = (-hand.cm);
 				posSiguiente.y = (-hand.fm);
 				regla.setPosSig(posSiguiente);
-				///////ERROR una vez que detecta una ficha negra adyacente se bloquea para siempre
 				if (regla.posibleComerFicha()) {//posibleComerFicha da positivo cuando hay una ficha negra adyacente (no comprueba que una casilla más allá este libre)
  					int h = 1;
 					if (regla.fichaComida()) {
 						//era posible comer y ha comido
 						listaFichasB[aux]->posicion.x = (-hand.cm);//estas dos instrucciones
-						listaFichasB[aux]->posicion.y = (-hand.fm);//son las que redibujan la ficha (actualizando su posicion)
-						controlSeleccion = regla.cambiarTurno();
+						listaFichasB[aux]->posicion.y = (-hand.fm);//son las que redibujan la ficha (actualizando su posicion
 						hand.seleccionada = false;
-						/*
-						if (regla.movComerAdicional()) {//si puedo seguir comiendo
-							listaFichasB[aux]->posicion.x = (-hand.cm);
-							listaFichasB[aux]->posicion.y = (-hand.fm);
-							controlSeleccion = 1;
-
-						}
-						else {
+						regla.setListaFichas(listaFichasB, listaFichasN);
+						if (regla.posibleComerFicha() == false) {
 							controlSeleccion = regla.cambiarTurno();
 							hand.seleccionada = false;
-							
 						}
-						*/
+						else {
+							controlSeleccion = 1;
+						}						
 					}
 					else {
 						controlSeleccion = 1;
@@ -198,7 +191,6 @@ void Tablero::moverMano(unsigned char tecla) {
 			}
 
 		}
-
 		else {
 			//aquí entra con el segundo espacio
 		

@@ -16,6 +16,8 @@ private:
 	Vector2D posicionSiguiente;
 	std::vector <Ficha*> listaFichasB;
 	std::vector <Ficha*> listaFichasN;
+	bool diagDer[20];
+	bool diagIzq[20];
 	//bool fichaComida;
 public:
 	Reglas();
