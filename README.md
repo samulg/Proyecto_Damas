@@ -14,3 +14,4 @@ Antes de poder ejecutar el videojuego, es necesario seguir estos sencillos pasos
 -	La tecla espacio nos permite seleccionar la ficha que queremos jugar, así como la posición a la que queremos mover.
 -	La tecla Q cambia el punto de vista y lo pone desde el aire.
 -	La tecla P abre un menú de pausa.
+-	
